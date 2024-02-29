@@ -1,20 +1,27 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Drag & Drop Sanduhr</title>
-    <link rel ="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css" />
     <script src="hourglass.js"></script>
-</head>
-<body>
-<main id="grid">
-    <section>
-        <img id="sanduhr-bild" src="hourglass.png" />
-    </section>
-    <section id="running">
-        <input type="text" placeholder="Startzeit" />
-    </section>
-</main>
-</body>
+  </head>
+  <body>
+    <main id="grid">
+      <section ondrop="dropHandler(event)" ondragover="dragoverHandler(event)">
+        <img id="sanduhr-bild" src="hourglass.png" draggable="true" />
+        <label for="dauer">Dauer</label>
+        <input type="text" name="dauer" id="dauer" />
+      </section>
+      <section
+        class="dropZone"
+        ondrop="dropHandler(event)"
+        ondragover="dragoverHandler(event)"
+      >
+        <label for="startzeit">Startzeit</label>
+        <input type="text" name="startzeit" id="startzeit" />
+      </section>
+    </main>
+  </body>
 </html>

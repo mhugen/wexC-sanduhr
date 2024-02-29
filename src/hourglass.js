@@ -1,21 +1,24 @@
-// JavaScript code goes here
-document.addEventListener('DOMContentLoaded', (event) => {
-    const hourglass = document.getElementById('sanduhr-bild');
-    const grid = document.getElementById('running');
+const getHourglass = () => document.getElementById('sanduhr-bild');
 
-    hourglass.addEventListener('dragstart', (event) => {
-        event.dataTransfer.setData('text/plain', 'hourglass');
-    });
+document.addEventListener('DOMContentLoaded', () => {
+  const dropZone = document.getElementsByClassName('dropZone');
 
-    window.allowDrop = function(event) {
-        event.preventDefault();
-    };
-
-    window.drop = function(event) {
-        event.preventDefault();
-        const data = event.dataTransfer.getData('text');
-        if (data === 'hourglass') {
-            event.target.appendChild(hourglass);
-        }
-    };
+  getHourglass().addEventListener('dragstart', (event) => {
+    event.dataTransfer.setData('text/plain', 'hourglass');
+  });
 });
+
+// eslint-disable-next-line no-unused-vars
+const dragoverHandler = (e) => {
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+};
+
+// eslint-disable-next-line no-unused-vars
+const dropHandler = (e) => {
+  e.preventDefault();
+  const data = e.dataTransfer.getData('text');
+  if (data === 'hourglass') {
+    e.target.appendChild(getHourglass());
+  }
+};
