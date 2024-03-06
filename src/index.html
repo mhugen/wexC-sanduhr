@@ -9,19 +9,22 @@
   </head>
   <body>
     <main id="grid">
-      <section>
-        <div  class="dropZone"
+      <section id="set-time">
+        <div  class="drop-zone"
               ondrop="dropHandler(event)"
               ondragover="dragoverHandler(event)">
-          <img id="sanduhr-bild" src="hourglass.png" draggable="true" />
+          <div id="draggable" draggable="true">
+            <img id="sanduhr-bild" src="hourglass.png" />
+            <p id="time">time</p>
+          </div>
         </div>
         <label for="dauer">Dauer</label>
-        <input type="text" name="dauer" id="dauer" />
+        <input type="text" name="dauer" id="dauer" onkeydown="enterDuration(event)" />
       </section>
-      <section class="starting">
-        <label for="startzeit">Startzeit</label>
-        <input type="text" name="startzeit" id="startzeit" />
-        <div class="dropZone"
+      <section class="start-time">
+        <label for="input-start-time">Startzeit</label>
+        <input type="text" name="startzeit" id="input-start-time" />
+        <div class="drop-zone"
              ondrop="dropHandler(event)"
              ondragover="dragoverHandler(event)">
         </div>
