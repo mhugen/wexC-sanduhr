@@ -1,18 +1,16 @@
-const getHourglass = () => document.getElementById('draggable');
-const getTime = () => document.getElementsByClassName('time');
+const getHourglasses = () => document.querySelectorAll('.draggable');
 
 document.addEventListener('DOMContentLoaded', () => {
-    const dropZone = document.getElementsByClassName('dropZone');
-
-    getHourglass().addEventListener('dragstart', (event) => {
-        event.dataTransfer.setData('text/plain', 'hourglass');
+    getHourglasses().forEach((hourglass) => {
+        hourglass.addEventListener('dragstart', (event) => {
+            event.dataTransfer.setData('text/plain', hourglass.dataset.duration);
+        });
     });
 });
 
 // eslint-disable-next-line no-unused-vars
 const dragoverHandler = (e) => {
     e.preventDefault();
-
     e.dataTransfer.dropEffect = 'move';
 };
 
@@ -20,9 +18,16 @@ const dragoverHandler = (e) => {
 const dropHandler = (e) => {
     e.preventDefault();
     const data = e.dataTransfer.getData('text');
-    if (data === 'hourglass') {
-        e.target.appendChild(getHourglass());
+    const draggedHourglass = document.querySelector(`[data-duration="${data}"]`)
+    const dropZoneRight = document.getElementById('drop-zone-right');
+    const dropZoneLeft = document.getElementById('drop-zone-left');
+
+    if(dropZoneRight.childNodes.length > 1) {
+        const existingElement =dropZoneRight.childNodes[1];
+        dropZoneRight.removeChild(existingElement);
+        dropZoneLeft.appendChild(existingElement);
     }
+    dropZoneRight.appendChild(draggedHourglass)
 };
 
 const enterDuration = (e) => {
@@ -31,8 +36,7 @@ const enterDuration = (e) => {
     }
     if (validateDuration) {
         console.log("Enter key pressed", e)
-        document.getElementById('time').innerText = document.getElementById('dauer').value
-    } else {
+                             } else {
         return false;
     }
 }

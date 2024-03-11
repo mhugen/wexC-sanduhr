@@ -10,21 +10,36 @@
   <body>
     <main id="grid">
       <section id="set-time">
-        <div  class="drop-zone"
+        <div  id="drop-zone-left"
               ondrop="dropHandler(event)"
               ondragover="dragoverHandler(event)">
-          <div id="draggable" draggable="true">
-            <img id="sanduhr-bild" src="hourglass.png" />
-            <p id="time">time</p>
+          <div class="draggable" draggable="true" data-duration="5">
+            <img class="sanduhr-bild" src="hourglass.png" />
+            <p>5 min</p>
+          </div>
+          <div class="draggable" draggable="true" data-duration="10">
+            <img class="sanduhr-bild" src="hourglass.png" />
+            <p>10 min</p>
+          </div>
+          <div class="draggable" draggable="true" data-duration="15">
+            <img class="sanduhr-bild" src="hourglass.png" />
+            <p>15 min</p>
+          </div>
+          <div class="draggable" draggable="true" data-duration="30">
+            <img class="sanduhr-bild" src="hourglass.png" />
+            <p>30 min</p>
+          </div>
+          <div class="draggable" draggable="true" data-duration="free">
+            <img class="sanduhr-bild" src="hourglass.png" />
+            <input type="text" placeholder="Dauer" name="dauer" id="dauer" onkeydown="enterDuration(event)" />
           </div>
         </div>
-        <label for="dauer">Dauer</label>
-        <input type="text" name="dauer" id="dauer" onkeydown="enterDuration(event)" />
       </section>
+
       <section class="start-time">
         <label for="input-start-time">Startzeit</label>
         <input type="text" name="startzeit" id="input-start-time" />
-        <div class="drop-zone"
+        <div id="drop-zone-right"
              ondrop="dropHandler(event)"
              ondragover="dragoverHandler(event)">
         </div>

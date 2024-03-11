@@ -16,18 +16,31 @@
   padding: 1em;
 }
 
-#sanduhr-bild {
-  width: 60px; /* Adjust size as needed */
-  height: 60px; /* Adjust size as needed */
+.sanduhr-bild {
+  width: 5em; /* Adjust size as needed */
 }
 
-.drop-zone {
+#drop-zone-left, #drop-zone-right {
   height: 80%;
-  display: flex;
   justify-content: center;
   align-items: center;
 }
 
+#drop-zone-left {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
 label {
   margin-right: 5px;
+}
+
+.time-block {
+  width: 2em;
+}
+
+.draggable {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
