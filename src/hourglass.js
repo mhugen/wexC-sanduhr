@@ -22,12 +22,17 @@ const dropHandler = (e) => {
     const dropZoneRight = document.getElementById('drop-zone-right');
     const dropZoneLeft = document.getElementById('drop-zone-left');
 
-    if(dropZoneRight.childNodes.length > 1) {
-        const existingElement =dropZoneRight.childNodes[1];
-        dropZoneRight.removeChild(existingElement);
-        dropZoneLeft.appendChild(existingElement);
+    if(dropZoneRight.contains(draggedHourglass)) {
+        dropZoneLeft.appendChild(dropZoneRight.childNodes[1])
+        dropZoneRight.removeChild(dropZoneRight.childNodes[1]);
+    } else {
+        if (dropZoneRight.childNodes.length > 1) {
+            const existingElement = dropZoneRight.childNodes[1];
+            dropZoneRight.removeChild(existingElement);
+            dropZoneLeft.appendChild(existingElement);
+        }
+        dropZoneRight.appendChild(draggedHourglass)
     }
-    dropZoneRight.appendChild(draggedHourglass)
 };
 
 const enterDuration = (e) => {
