@@ -10,7 +10,7 @@
   text-align: center;
 }
 
-.start-time {
+.start-end-time {
   border: 1px solid black;
   background-color: rgb(185, 208, 208);
   padding: 1em;
@@ -18,10 +18,12 @@
 
 .sanduhr-bild {
   width: 5em; /* Adjust size as needed */
+  transition: transform 0.5s ease;
+  transform: rotate(0deg)
 }
 
 #drop-zone-left, #drop-zone-right {
-  height: 80%;
+  height: 60%;
   justify-content: center;
   align-items: center;
 }
@@ -31,12 +33,21 @@
   grid-template-columns: 1fr 1fr 1fr 1fr;
 }
 
+#drop-zone-right {
+  padding: 3em;
+}
+
+
 label {
   margin-right: 5px;
 }
 
 .time-block {
   width: 2em;
+}
+
+#dauer {
+  width: 4em;
 }
 
 .draggable {

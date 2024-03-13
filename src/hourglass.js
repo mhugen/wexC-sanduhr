@@ -1,4 +1,5 @@
 const getHourglasses = () => document.querySelectorAll('.draggable');
+const getHourglassImg = () => document.querySelectorAll('.sanduhr-bild');
 
 document.addEventListener('DOMContentLoaded', () => {
     getHourglasses().forEach((hourglass) => {
@@ -6,6 +7,10 @@ document.addEventListener('DOMContentLoaded', () => {
             event.dataTransfer.setData('text/plain', hourglass.dataset.duration);
         });
     });
+
+    getHourglassImg().forEach((img) => {
+        img.addEventListener('click', rotateHourglass)
+    })
 });
 
 // eslint-disable-next-line no-unused-vars
@@ -13,6 +18,7 @@ const dragoverHandler = (e) => {
     e.preventDefault();
     e.dataTransfer.dropEffect = 'move';
 };
+
 
 // eslint-disable-next-line no-unused-vars
 const dropHandler = (e) => {
@@ -22,7 +28,7 @@ const dropHandler = (e) => {
     const dropZoneRight = document.getElementById('drop-zone-right');
     const dropZoneLeft = document.getElementById('drop-zone-left');
 
-    if(dropZoneRight.contains(draggedHourglass)) {
+    if (dropZoneRight.contains(draggedHourglass)) {
         dropZoneLeft.appendChild(dropZoneRight.childNodes[1])
         dropZoneRight.removeChild(dropZoneRight.childNodes[1]);
     } else {
@@ -35,13 +41,26 @@ const dropHandler = (e) => {
     }
 };
 
+    const rotateHourglass = (e) => {
+        const dropZoneRight = document.getElementById('drop-zone-right');
+        if (dropZoneRight.contains(e.target)) {
+            const style = getComputedStyle(e.target)
+            console.log(style)
+            if( style.transform === 'rotate(0deg)'){
+                console.log("ich drehe nichts")
+                e.target.style.transform = "rotate(90deg)"
+            }
+        }
+    }
+
+
 const enterDuration = (e) => {
     if (e.key !== "Enter") {
         return;
     }
     if (validateDuration) {
         console.log("Enter key pressed", e)
-                             } else {
+    } else {
         return false;
     }
 }

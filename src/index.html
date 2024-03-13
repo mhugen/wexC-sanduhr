@@ -32,17 +32,21 @@
           <div class="draggable" draggable="true" data-duration="free">
             <img class="sanduhr-bild" src="hourglass.png" />
             <input type="text" placeholder="Dauer" name="dauer" id="dauer" onkeydown="enterDuration(event)" />
+            <input type="range" min="0" max="60" step="5"/>
           </div>
         </div>
       </section>
 
-      <section class="start-time">
+      <section class="start-end-time">
         <label for="input-start-time">Startzeit</label>
         <input type="text" name="startzeit" id="input-start-time" />
         <div id="drop-zone-right"
              ondrop="dropHandler(event)"
              ondragover="dragoverHandler(event)">
         </div>
+
+        <label for="end-time">Ende</label>
+        <input type="text" name="endzeit" id="end-time" />
       </section>
     </main>
   </body>
