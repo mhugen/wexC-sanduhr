@@ -1,5 +1,6 @@
 const getHourglasses = () => document.querySelectorAll('.draggable');
 const getHourglassImg = () => document.querySelectorAll('.sanduhr-bild');
+let hourglassTurned = false;
 
 document.addEventListener('DOMContentLoaded', () => {
     getHourglasses().forEach((hourglass) => {
@@ -29,10 +30,17 @@ const dropHandler = (e) => {
     const dropZoneLeft = document.getElementById('drop-zone-left');
 
     if (dropZoneRight.contains(draggedHourglass)) {
-        dropZoneLeft.appendChild(dropZoneRight.childNodes[1])
-        dropZoneRight.removeChild(dropZoneRight.childNodes[1]);
+        //Sanduhr von rechts nach links zurück ziehen
+        const existingElement = dropZoneRight.childNodes[1];
+        if (hourglassTurned) {
+            existingElement.childNodes[1].style.transform = "rotate(0deg)"
+            hourglassTurned = false;
+        }
+        dropZoneRight.removeChild(existingElement);
+        dropZoneLeft.appendChild(existingElement);
     } else {
         if (dropZoneRight.childNodes.length > 1) {
+            //existierende Sanduhr rechts entfernen, links hinzufügen (falls rechts schon eine ist)
             const existingElement = dropZoneRight.childNodes[1];
             dropZoneRight.removeChild(existingElement);
             dropZoneLeft.appendChild(existingElement);
@@ -41,17 +49,18 @@ const dropHandler = (e) => {
     }
 };
 
-    const rotateHourglass = (e) => {
-        const dropZoneRight = document.getElementById('drop-zone-right');
-        if (dropZoneRight.contains(e.target)) {
-            const style = getComputedStyle(e.target)
-            console.log(style)
-            if( style.transform === 'rotate(0deg)'){
-                console.log("ich drehe nichts")
-                e.target.style.transform = "rotate(90deg)"
-            }
+const rotateHourglass = (e) => {
+    const dropZoneRight = document.getElementById('drop-zone-right');
+    if (dropZoneRight.contains(e.target)) {
+        if(hourglassTurned === false){
+            e.target.style.transform = "rotate(90deg)"
+            hourglassTurned = true;
+        } else {
+            e.target.style.transform = "rotate(0deg)"
+            hourglassTurned = false;
         }
     }
+}
 
 
 const enterDuration = (e) => {
