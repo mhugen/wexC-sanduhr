@@ -14,25 +14,56 @@
               ondrop="dropHandler(event)"
               ondragover="dragoverHandler(event)">
           <div class="draggable" draggable="true" data-duration="5">
-            <img class="sanduhr-bild" src="hourglass.png" />
-            <p>5 min</p>
+            <div class="hourglass" >
+                <div class="top"></div>
+                <div class="bottom"></div>
+            </div>
+            <div class="flex">
+              <button>-</button>
+              <p>5 min</p>
+              <button>+</button>
+            </div>
           </div>
           <div class="draggable" draggable="true" data-duration="10">
-            <img class="sanduhr-bild" src="hourglass.png" />
-            <p>10 min</p>
+            <div class="hourglass" >
+              <div class="top"></div>
+              <div class="bottom"></div>
+            </div>
+            <div class="flex">
+              <button>-</button>
+              <p>10 min</p>
+              <button>+</button>
+            </div>
           </div>
           <div class="draggable" draggable="true" data-duration="15">
-            <img class="sanduhr-bild" src="hourglass.png" />
-            <p>15 min</p>
+            <div class="hourglass" >
+              <div class="top"></div>
+              <div class="bottom"></div>
+            </div>
+            <div class="flex">
+              <button>-</button>
+              <p>15 min</p>
+              <button>+</button>
+            </div>
           </div>
           <div class="draggable" draggable="true" data-duration="30">
-            <img class="sanduhr-bild" src="hourglass.png" />
-            <p>30 min</p>
+            <div class="hourglass" >
+              <div class="top"></div>
+              <div class="bottom"></div>
+            </div>
+            <div class="flex">
+              <button>-</button>
+              <p>30 min</p>
+              <button>+</button>
+            </div>
           </div>
           <div class="draggable" draggable="true" data-duration="free">
-            <img class="sanduhr-bild" src="hourglass.png" />
+            <div class="hourglass" >
+              <div class="top"></div>
+              <div class="bottom"></div>
+            </div>
             <input type="text" placeholder="Dauer" name="dauer" id="dauer" />
-            <input type="range" min="0" max="60" step="5"/>
+            <!--<input type="range" min="0" max="60" step="5"/>-->
           </div>
         </div>
       </section>

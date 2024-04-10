@@ -1,5 +1,5 @@
 const getHourglasses = () => document.querySelectorAll('.draggable');
-const getHourglassImg = () => document.querySelectorAll('.sanduhr-bild');
+const getHourglassImg = () => document.querySelectorAll('.hourglass');
 let hourglassTurned = false;
 
 document.addEventListener('DOMContentLoaded', () => {
