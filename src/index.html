@@ -1,84 +1,92 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Drag & Drop Sanduhr</title>
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="styles.css"/>
     <script src="hourglass.js"></script>
-  </head>
-  <body>
-    <main id="grid">
-      <section id="set-time">
-        <div  id="drop-zone-left"
-              ondrop="dropHandler(event)"
-              ondragover="dragoverHandler(event)">
-          <div class="draggable" draggable="true" data-duration="5">
-            <div class="hourglass" >
-                <div class="top"></div>
-                <div class="bottom"></div>
+</head>
+<body>
+<main id="grid">
+    <section id="set-time">
+        <div id="drop-zone-left"
+             ondrop="dropHandler(event)"
+             ondragover="dragoverHandler(event)">
+            <div id="tubes">
+                <div class="draggable" draggable="true" data-duration="5">
+                    <div class="tube" id="tube1">
+                        <div class="tube-content"></div>
+                        <div class="middle-pixels"></div>
+                        <div class="bottom-pixels"></div>
+                    </div>
+                    <div class="flex">
+                        <button>-</button>
+                        <p>5 min</p>
+                        <button>+</button>
+                    </div>
+                </div>
+                <div class="draggable" draggable="true" data-duration="10">
+                    <div class="tube" id="tube2">
+                        <div class="tube-content"></div>
+                        <div class="middle-pixels"></div>
+                        <div class="bottom-pixels"></div>
+                    </div>
+                    <div class="flex">
+                        <button>-</button>
+                        <p>10 min</p>
+                        <button>+</button>
+                    </div>
+                </div>
+                <div class="draggable" draggable="true" data-duration="15">
+                    <div class="tube" id="tube3">
+                        <div class="tube-content"></div>
+                        <div class="middle-pixels"></div>
+                        <div class="bottom-pixels"></div>
+                    </div>
+                    <div class="flex">
+                        <button>-</button>
+                        <p>15 min</p>
+                        <button>+</button>
+                    </div>
+                </div>
+                <div class="draggable" draggable="true" data-duration="30">
+                    <div class="tube" id="tube4">
+                        <div class="tube-content"></div>
+                        <div class="middle-pixels"></div>
+                        <div class="bottom-pixels"></div>
+                    </div>
+                    <div class="flex">
+                        <button>-</button>
+                        <p>30 min</p>
+                        <button>+</button>
+                    </div>
+                </div>
             </div>
-            <div class="flex">
-              <button>-</button>
-              <p>5 min</p>
-              <button>+</button>
+            <div id="hourglass">
+                <div class="draggable" draggable="true" data-duration="free">
+                    <div class="hourglass">
+                        <div class="top"></div>
+                        <div class="bottom"></div>
+                    </div>
+                    <input type="text" placeholder="Dauer" name="dauer" id="dauer"/>
+                    <!--<input type="range" min="0" max="60" step="5"/>-->
+                </div>
             </div>
-          </div>
-          <div class="draggable" draggable="true" data-duration="10">
-            <div class="hourglass" >
-              <div class="top"></div>
-              <div class="bottom"></div>
-            </div>
-            <div class="flex">
-              <button>-</button>
-              <p>10 min</p>
-              <button>+</button>
-            </div>
-          </div>
-          <div class="draggable" draggable="true" data-duration="15">
-            <div class="hourglass" >
-              <div class="top"></div>
-              <div class="bottom"></div>
-            </div>
-            <div class="flex">
-              <button>-</button>
-              <p>15 min</p>
-              <button>+</button>
-            </div>
-          </div>
-          <div class="draggable" draggable="true" data-duration="30">
-            <div class="hourglass" >
-              <div class="top"></div>
-              <div class="bottom"></div>
-            </div>
-            <div class="flex">
-              <button>-</button>
-              <p>30 min</p>
-              <button>+</button>
-            </div>
-          </div>
-          <div class="draggable" draggable="true" data-duration="free">
-            <div class="hourglass" >
-              <div class="top"></div>
-              <div class="bottom"></div>
-            </div>
-            <input type="text" placeholder="Dauer" name="dauer" id="dauer" />
-            <!--<input type="range" min="0" max="60" step="5"/>-->
-          </div>
         </div>
-      </section>
+    </section>
 
-      <section class="start-end-time">
+    <section class="start-end-time">
         <label for="input-start-time">Startzeit</label>
-        <input type="text" name="startzeit" id="input-start-time" />
+        <input type="text" name="startzeit" id="input-start-time"/>
+        <label for="end-time">Ende</label>
+        <input type="text" name="endzeit" id="end-time"/>
+
         <div id="drop-zone-right"
              ondrop="dropHandler(event)"
              ondragover="dragoverHandler(event)">
         </div>
-
-        <label for="end-time">Ende</label>
-        <input type="text" name="endzeit" id="end-time" />
-      </section>
-    </main>
-  </body>
+    </section>
+</main>
+</body>
 </html>
