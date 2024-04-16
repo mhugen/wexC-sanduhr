@@ -19,11 +19,13 @@ document.addEventListener('DOMContentLoaded', () => {
     hourglass.addEventListener('dragstart', (event) => {
         event.dataTransfer.setData('text/plain', hourglass.dataset.duration);
     });
-    console.log(hourglass)
 
-    getHourglassImg().forEach((img) => {
-        img.addEventListener('click', rotateHourglass)
+    hourglass.addEventListener('dragstart', (event) => {
+        event.dataTransfer.setData('text/plain', hourglass.dataset.duration);
     });
+
+    document.querySelector('#plus').addEventListener('click', addFiveMins)
+    document.querySelector('#minus').addEventListener('click', subtractFiveMins)
 });
 
 // eslint-disable-next-line no-unused-vars
@@ -68,6 +70,19 @@ const dropHandler = (e) => {
         }
     }
 };
+
+const addFiveMins = () => {
+    const currentDurationValue = getDurationField().value === "" ? 0 : parseInt(getDurationField().value, 10);
+    getDurationField().value = currentDurationValue + 5;
+    console.log("asdf")
+}
+
+const subtractFiveMins = () => {
+    const currentDurationValue = getDurationField().value === "" ? 0 : parseInt(getDurationField().value, 10);
+    if(currentDurationValue !== 0) {
+        getDurationField().value = currentDurationValue - 5;
+    }
+}
 
 const rotateHourglass = (e) => {
     const dropZoneRight = document.getElementById('drop-zone-right');
