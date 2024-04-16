@@ -52,7 +52,7 @@ const dropHandler = (e) => {
 const rotateHourglass = (e) => {
     const dropZoneRight = document.getElementById('drop-zone-right');
     if (dropZoneRight.contains(e.target)) {
-        if(hourglassTurned === false){
+        if (hourglassTurned === false) {
             e.target.style.transform = "rotate(90deg)"
             hourglassTurned = true;
         } else {
@@ -81,3 +81,109 @@ const validateDuration = () => {
 const validateStarttime = () => {
     return true;
 }
+
+
+document.addEventListener('DOMContentLoaded', (event) => {
+    var startTimeValue = document.querySelector('#input-start-time');
+    var endTimeValue = document.querySelector('#input-end-time');
+    var durationValue = document.getElementById('duration').value;
+
+
+//TODO: duration muss von der Sanduhr weitergegeben werden
+    function calculateEndTime(startTimeValue, durationValue) {
+
+        var [hours, minutes] = startTimeValue.value.split(':').map(Number);
+
+        console.log(hours)
+        console.log(minutes)
+
+        const {calcHours, calcMinutes} = calcHoursAndMinutes(durationValue);
+
+        var endMinutes = minutes + calcMinutes;
+        var endHours = hours + calcHours;
+
+        if (endMinutes >= 60) {
+            endHours += Math.floor(endMinutes / 60);
+        } else {
+            endMinutes % 60;
+        }
+
+        endHours %= 24;
+
+
+        var endTime = `${endHours}:${endMinutes}`
+
+        console.log(endTime)
+
+        setEndTime(endTime);
+
+        return endTime;
+
+    }
+
+    function calculateStartTime(endTimeValue, durationValue) {
+        var [hours, minutes] = endTimeValue.value.split(':').map(Number);
+
+        console.log(hours)
+        console.log(minutes)
+
+        const {calcHours, calcMinutes} = calcHoursAndMinutes(durationValue);
+
+        var startMinutes = minutes - calcMinutes;
+        var startHours = hours - calcHours;
+
+        if (startMinutes >= 60) {
+            startHours += Math.floor(startMinutes / 60);
+        } else {
+            startMinutes % 60;
+        }
+
+        startHours %= 24;
+
+
+        var startTime = `${startHours}:${startMinutes}`
+
+        console.log(startTime)
+
+        setStartTime(startTime);
+
+        return startTime;
+    }
+
+
+    function calcHoursAndMinutes(durationValue) {
+        const calcHours = Math.floor(durationValue / 60);
+        const calcMinutes = durationValue % 60;
+
+        console.log(calcHours)
+        console.log(calcMinutes)
+
+        return {calcHours, calcMinutes};
+    }
+
+    function setStartTime(startTime) {
+        document.getElementById("input-start-time").value = startTime;
+    }
+
+    function setEndTime(endTime) {
+        document.getElementById("input-end-time").value = endTime;
+
+    }
+
+//EventListeners
+    startTimeValue.addEventListener('change', () => {
+        if (startTimeValue.value && durationValue) {
+            calculateEndTime(startTimeValue, durationValue);
+        }
+    });
+
+    endTimeValue.addEventListener('change', () => {
+        if (endTimeValue.value && durationValue) {
+            calculateStartTime(endTimeValue, durationValue);
+        }
+    });
+
+});
+
+
+
