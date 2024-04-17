@@ -1,6 +1,5 @@
 const getHourglass = () => document.querySelector('#hourglass_drag');
 const getTubes = () => document.querySelectorAll('.tube_drag');
-const getHourglassImg = () => document.querySelectorAll('.hourglass');
 let hourglassTurned = false;
 
 const getDurationField = () => document.querySelector('#dauer');
@@ -8,24 +7,28 @@ const getDurationField = () => document.querySelector('#dauer');
 document.addEventListener('DOMContentLoaded', () => {
     getDurationField().value = null;
 
+    //drag event listener for tubes
     getTubes().forEach((tube) => {
         tube.addEventListener('dragstart', (event) => {
             event.dataTransfer.setData('text/plain', tube.dataset.duration);
         });
-        console.log(tube);
     });
 
     const hourglass = getHourglass();
+
+    //drag event listener for hourglass
     hourglass.addEventListener('dragstart', (event) => {
         event.dataTransfer.setData('text/plain', hourglass.dataset.duration);
     });
 
-    hourglass.addEventListener('dragstart', (event) => {
-        event.dataTransfer.setData('text/plain', hourglass.dataset.duration);
-    });
+    //click event listener to pause hourglass if on right side
+    hourglass.addEventListener('click', pauseHourglass);
 
+    //power user buttons to add or subtract to/from duration
     document.querySelector('#plus').addEventListener('click', addFiveMins)
     document.querySelector('#minus').addEventListener('click', subtractFiveMins)
+
+    //set duration to 0 when input field looses focus, if duration < 0 or duration === NaN
     getDurationField().addEventListener('blur', (e) => {
         const num = parseInt(e.target.value);
         if (isNaN(num) || num < 0){
@@ -89,35 +92,15 @@ const subtractFiveMins = () => {
     }
 }
 
-const rotateHourglass = (e) => {
+const pauseHourglass = (e) => {
     const dropZoneRight = document.getElementById('drop-zone-right');
     if (dropZoneRight.contains(e.target)) {
         if(hourglassTurned === false){
-            e.target.style.transform = "rotate(90deg)"
+            e.currentTarget.style.transform = "rotate(90deg)"
             hourglassTurned = true;
         } else {
-            e.target.style.transform = "rotate(0deg)"
+            e.currentTarget.style.transform = "rotate(0deg)"
             hourglassTurned = false;
         }
     }
-}
-
-
-const enterDuration = (e) => {
-    if (e.key !== "Enter") {
-        return;
-    }
-    if (validateDuration) {
-        console.log("Enter key pressed", e)
-    } else {
-        return false;
-    }
-}
-
-const validateDuration = () => {
-    return true;
-}
-
-const validateStarttime = () => {
-    return true;
 }
