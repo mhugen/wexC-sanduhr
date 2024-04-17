@@ -12,9 +12,6 @@
 <body>
 <main id="grid">
     <section id="set-time">
-        <div id="drop-zone-left"
-             ondrop="dropHandler(event)"
-             ondragover="dragoverHandler(event)">
             <div id="tubes">
                 <div class="draggable tube_drag" draggable="true" data-duration="5">
                     <div class="tube" id="tube1">
@@ -46,7 +43,9 @@
                         <p>30 min</p>
                 </div>
             </div>
-            <div>
+            <div id="drop-zone-left"
+                 ondrop="dropHandler(event)"
+                 ondragover="dragoverHandler(event)">
                 <div class="draggable" id="hourglass_drag" draggable="true" data-duration="free">
                     <div id="hourglass">
                         <div class="a"></div>

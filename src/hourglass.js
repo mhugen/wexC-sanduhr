@@ -26,6 +26,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.querySelector('#plus').addEventListener('click', addFiveMins)
     document.querySelector('#minus').addEventListener('click', subtractFiveMins)
+    getDurationField().addEventListener('blur', (e) => {
+        const num = parseInt(e.target.value);
+        if (isNaN(num) || num < 0){
+            e.target.value = 0;
+        }
+    })
 });
 
 // eslint-disable-next-line no-unused-vars
