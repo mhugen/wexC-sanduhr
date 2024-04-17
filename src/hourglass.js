@@ -89,12 +89,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
     var durationValue = document.getElementById('duration');
 
 
-    function calculateEndTime(startTimeValue, durationValue) {
+    const calculateEndTime = (startTimeValue, durationValue) => {
 
         var [hours, minutes] = startTimeValue.value.split(':').map(Number);
-
-        console.log(hours)
-        console.log(minutes)
 
         const {calcHours, calcMinutes} = calcHoursAndMinutes(durationValue);
 
@@ -107,17 +104,15 @@ document.addEventListener('DOMContentLoaded', (event) => {
         endMinutes = endMinutes % 60;
         endHours %= 24;
 
-
         var endTime = `${endHours}:${endMinutes}`
         var paddedEndTime = endTime.split(':').map(e => `0${e}`.slice(-2)).join(':')
 
         setEndTime(paddedEndTime);
-
         return paddedEndTime;
 
     }
 
-    function calculateStartTime(endTimeValue, durationValue) {
+    const calculateStartTime = (endTimeValue, durationValue) => {
         var [hours, minutes] = endTimeValue.value.split(':').map(Number);
 
         const {calcHours, calcMinutes} = calcHoursAndMinutes(durationValue);
@@ -146,13 +141,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }
 
 
-    function calcHoursAndMinutes(durationValue) {
+    const  calcHoursAndMinutes = (durationValue) => {
         const calcHours = Math.floor(durationValue / 60);
         const calcMinutes = durationValue % 60;
-
-        console.log(calcHours)
-        console.log(calcMinutes)
-
         return {calcHours, calcMinutes};
     }
 
@@ -162,10 +153,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     function setEndTime(paddedEndTime) {
         document.getElementById("input-end-time").value = paddedEndTime;
-
     }
 
-//EventListeners
+    //EventListeners
     startTimeValue.addEventListener('change', () => {
         if (startTimeValue.value && durationValue) {
             calculateEndTime(startTimeValue, durationValue);
