@@ -87,6 +87,7 @@ const dropHandler = (e) => {
             }
             dropZoneRight.removeChild(existingElement);
             dropZoneLeft.appendChild(existingElement);
+            document.querySelector('#timer_display').innerHTML = null;
         } else {
             if (dropZoneRight.childNodes.length > 1) {
                 //existierende Sanduhr rechts entfernen, links hinzufügen (falls rechts schon eine ist)
@@ -95,6 +96,8 @@ const dropHandler = (e) => {
                 dropZoneLeft.appendChild(existingElement);
             }
             dropZoneRight.appendChild(draggedElement)
+            const duration = getDurationField().value;
+            document.querySelector('#timer_display').innerHTML = duration;
         }
     }
 };
