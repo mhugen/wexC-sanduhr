@@ -1,16 +1,39 @@
-const getHourglasses = () => document.querySelectorAll('.draggable');
-const getHourglassImg = () => document.querySelectorAll('.hourglass');
+const getHourglass = () => document.querySelector('#hourglass_drag');
+const getTubes = () => document.querySelectorAll('.tube_drag');
 let hourglassTurned = false;
 
+const getDurationField = () => document.querySelector('#dauer');
+
 document.addEventListener('DOMContentLoaded', () => {
-    getHourglasses().forEach((hourglass) => {
-        hourglass.addEventListener('dragstart', (event) => {
-            event.dataTransfer.setData('text/plain', hourglass.dataset.duration);
+    getDurationField().value = null;
+
+    //drag event listener for tubes
+    getTubes().forEach((tube) => {
+        tube.addEventListener('dragstart', (event) => {
+            event.dataTransfer.setData('text/plain', tube.dataset.duration);
         });
     });
 
-    getHourglassImg().forEach((img) => {
-        img.addEventListener('click', rotateHourglass)
+    const hourglass = getHourglass();
+
+    //drag event listener for hourglass
+    hourglass.addEventListener('dragstart', (event) => {
+        event.dataTransfer.setData('text/plain', hourglass.dataset.duration);
+    });
+
+    //click event listener to pause hourglass if on right side
+    hourglass.addEventListener('click', pauseHourglass);
+
+    //power user buttons to add or subtract to/from duration
+    document.querySelector('#plus').addEventListener('click', addFiveMins)
+    document.querySelector('#minus').addEventListener('click', subtractFiveMins)
+
+    //set duration to 0 when input field looses focus, if duration < 0 or duration === NaN
+    getDurationField().addEventListener('blur', (e) => {
+        const num = parseInt(e.target.value);
+        if (isNaN(num) || num < 0){
+            e.target.value = 0;
+        }
     })
 });
 
@@ -25,68 +48,68 @@ const dragoverHandler = (e) => {
 const dropHandler = (e) => {
     e.preventDefault();
     const data = e.dataTransfer.getData('text');
-    const draggedHourglass = document.querySelector(`[data-duration="${data}"]`)
-    const dropZoneRight = document.getElementById('drop-zone-right');
-    const dropZoneLeft = document.getElementById('drop-zone-left');
+    const draggedElement = document.querySelector(`[data-duration="${data}"]`)
+    const dropZoneRight = document.querySelector('#drop-zone-right');
+    const dropZoneLeft = document.querySelector('#drop-zone-left');
 
-    if (dropZoneRight.contains(draggedHourglass)) {
-        //Sanduhr von rechts nach links zurück ziehen
-        const existingElement = dropZoneRight.childNodes[1];
-        if (hourglassTurned) {
-            existingElement.childNodes[1].style.transform = "rotate(0deg)"
-            hourglassTurned = false;
-        }
-        dropZoneRight.removeChild(existingElement);
-        dropZoneLeft.appendChild(existingElement);
-    } else {
-        if (dropZoneRight.childNodes.length > 1) {
-            //existierende Sanduhr rechts entfernen, links hinzufügen (falls rechts schon eine ist)
+    if (draggedElement.classList.contains('tube_drag')) {
+        const duration = draggedElement.getAttribute('data-duration');
+        const durationAsNumber = parseInt(duration, 10);
+        const currentDurationValue = getDurationField().value === "" ? 0 : parseInt(getDurationField().value, 10);
+
+        getDurationField().value = currentDurationValue + durationAsNumber;
+    } else if (draggedElement.id === 'hourglass_drag') {
+        if (dropZoneRight.contains(draggedElement)) {
+            //Sanduhr von rechts nach links zurück ziehen
             const existingElement = dropZoneRight.childNodes[1];
+            if (hourglassTurned) {
+                existingElement.childNodes[1].style.transform = "rotate(0deg)"
+                hourglassTurned = false;
+            }
             dropZoneRight.removeChild(existingElement);
             dropZoneLeft.appendChild(existingElement);
+        } else {
+            if (dropZoneRight.childNodes.length > 1) {
+                //existierende Sanduhr rechts entfernen, links hinzufügen (falls rechts schon eine ist)
+                const existingElement = dropZoneRight.childNodes[1];
+                dropZoneRight.removeChild(existingElement);
+                dropZoneLeft.appendChild(existingElement);
+            }
+            dropZoneRight.appendChild(draggedElement)
         }
         dropZoneRight.appendChild(draggedHourglass)
     }
 };
 
-const rotateHourglass = (e) => {
+const addFiveMins = () => {
+    const currentDurationValue = getDurationField().value === "" ? 0 : parseInt(getDurationField().value, 10);
+    getDurationField().value = currentDurationValue + 5;
+}
+
+const subtractFiveMins = () => {
+    const currentDurationValue = getDurationField().value === "" ? 0 : parseInt(getDurationField().value, 10);
+    if(currentDurationValue !== 0) {
+        getDurationField().value = currentDurationValue - 5;
+    }
+}
+
+const pauseHourglass = (e) => {
     const dropZoneRight = document.getElementById('drop-zone-right');
     if (dropZoneRight.contains(e.target)) {
-        if (hourglassTurned === false) {
-            e.target.style.transform = "rotate(90deg)"
+        if(hourglassTurned === false){
+            e.currentTarget.style.transform = "rotate(90deg)"
             hourglassTurned = true;
         } else {
-            e.target.style.transform = "rotate(0deg)"
+            e.currentTarget.style.transform = "rotate(0deg)"
             hourglassTurned = false;
         }
     }
 }
 
-
-const enterDuration = (e) => {
-    if (e.key !== "Enter") {
-        return;
-    }
-    if (validateDuration) {
-        console.log("Enter key pressed", e)
-    } else {
-        return false;
-    }
-}
-
-const validateDuration = () => {
-    return true;
-}
-
-const validateStarttime = () => {
-    return true;
-}
-
-
 document.addEventListener('DOMContentLoaded', (event) => {
     var startTimeValue = document.querySelector('#input-start-time');
     var endTimeValue = document.querySelector('#input-end-time');
-    var durationValue = document.getElementById('duration');
+    var durationValue = getDurationField();
 
 
     const calculateEndTime = (startTimeValue, durationValue) => {
