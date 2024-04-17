@@ -86,10 +86,9 @@ const validateStarttime = () => {
 document.addEventListener('DOMContentLoaded', (event) => {
     var startTimeValue = document.querySelector('#input-start-time');
     var endTimeValue = document.querySelector('#input-end-time');
-    var durationValue = document.getElementById('duration').value;
+    var durationValue = document.getElementById('duration');
 
 
-//TODO: duration muss von der Sanduhr weitergegeben werden
     function calculateEndTime(startTimeValue, durationValue) {
 
         var [hours, minutes] = startTimeValue.value.split(':').map(Number);
@@ -104,28 +103,22 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
         if (endMinutes >= 60) {
             endHours += Math.floor(endMinutes / 60);
-        } else {
-            endMinutes % 60;
         }
-
+        endMinutes = endMinutes % 60;
         endHours %= 24;
 
 
         var endTime = `${endHours}:${endMinutes}`
+        var paddedEndTime = endTime.split(':').map(e => `0${e}`.slice(-2)).join(':')
 
-        console.log(endTime)
+        setEndTime(paddedEndTime);
 
-        setEndTime(endTime);
-
-        return endTime;
+        return paddedEndTime;
 
     }
 
     function calculateStartTime(endTimeValue, durationValue) {
         var [hours, minutes] = endTimeValue.value.split(':').map(Number);
-
-        console.log(hours)
-        console.log(minutes)
 
         const {calcHours, calcMinutes} = calcHoursAndMinutes(durationValue);
 
@@ -133,21 +126,23 @@ document.addEventListener('DOMContentLoaded', (event) => {
         var startHours = hours - calcHours;
 
         if (startMinutes >= 60) {
-            startHours += Math.floor(startMinutes / 60);
-        } else {
-            startMinutes % 60;
+            startHours -= 1;
+            startMinutes += 60;
         }
 
-        startHours %= 24;
+        if (startMinutes < 0) {
+            startHours -= 1;
+            startMinutes += 60;
+        }
 
+        startHours = (startHours + 24) % 24;
 
         var startTime = `${startHours}:${startMinutes}`
+        var paddedStartTime = startTime.split(':').map(e => `0${e}`.slice(-2)).join(':')
 
-        console.log(startTime)
+        setStartTime(paddedStartTime);
 
-        setStartTime(startTime);
-
-        return startTime;
+        return paddedStartTime;
     }
 
 
@@ -161,12 +156,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
         return {calcHours, calcMinutes};
     }
 
-    function setStartTime(startTime) {
-        document.getElementById("input-start-time").value = startTime;
+    function setStartTime(paddedStartTime) {
+        document.getElementById("input-start-time").value = paddedStartTime;
     }
 
-    function setEndTime(endTime) {
-        document.getElementById("input-end-time").value = endTime;
+    function setEndTime(paddedEndTime) {
+        document.getElementById("input-end-time").value = paddedEndTime;
 
     }
 
@@ -183,6 +178,17 @@ document.addEventListener('DOMContentLoaded', (event) => {
         }
     });
 
+    durationValue.addEventListener('change', updateValue);
+
+    function updateValue(e) {
+        durationValue = e.target.value;
+
+        if (startTimeValue.value) {
+            calculateEndTime(startTimeValue, durationValue);
+        } else if (endTimeValue.value) {
+            calculateStartTime(endTimeValue, durationValue);
+        }
+    }
 });
 
 
