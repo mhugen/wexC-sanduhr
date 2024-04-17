@@ -7,6 +7,7 @@ const getDurationField = () => document.querySelector('#dauer');
 document.addEventListener('DOMContentLoaded', () => {
     getDurationField().value = null;
 
+    //drag event listener for tubes
     getTubes().forEach((tube) => {
         tube.addEventListener('dragstart', (event) => {
             event.dataTransfer.setData('text/plain', tube.dataset.duration);
@@ -14,18 +15,20 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     const hourglass = getHourglass();
+
+    //drag event listener for hourglass
     hourglass.addEventListener('dragstart', (event) => {
         event.dataTransfer.setData('text/plain', hourglass.dataset.duration);
     });
 
+    //click event listener to pause hourglass if on right side
     hourglass.addEventListener('click', pauseHourglass);
 
-    hourglass.addEventListener('dragstart', (event) => {
-        event.dataTransfer.setData('text/plain', hourglass.dataset.duration);
-    });
-
+    //power user buttons to add or subtract to/from duration
     document.querySelector('#plus').addEventListener('click', addFiveMins)
     document.querySelector('#minus').addEventListener('click', subtractFiveMins)
+
+    //set duration to 0 when input field looses focus, if duration < 0 or duration === NaN
     getDurationField().addEventListener('blur', (e) => {
         const num = parseInt(e.target.value);
         if (isNaN(num) || num < 0){
