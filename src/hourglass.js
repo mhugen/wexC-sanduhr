@@ -4,6 +4,9 @@ const getTubes = () => document.querySelectorAll('.tube_drag');
 let hourglassTurned = false;
 const getDurationField = () => document.querySelector('#dauer');
 
+const getStartTimeField = () => document.querySelector('#input-start-time');
+const getEndTimeField = () => document.querySelector('#input-end-time');
+
 //event listeners
 document.addEventListener('DOMContentLoaded', () => {
     getDurationField().value = null;
@@ -37,6 +40,20 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     })
 
+    //Eventlisteners regarding calculating and setting duration and time
+    getStartTimeField().addEventListener('change', () => {
+        if (getStartTimeField().value && getDurationField().value) {
+            calculateEndTime();
+        }
+    });
+
+    getEndTimeField().addEventListener('change', () => {
+        if (getEndTimeField().value && getDurationField().value) {
+            calculateStartTime();
+        }
+    });
+
+    getDurationField().addEventListener('change', updateTime);
 
 });
 
@@ -79,7 +96,6 @@ const dropHandler = (e) => {
             }
             dropZoneRight.appendChild(draggedElement)
         }
-        dropZoneRight.appendChild(draggedHourglass)
     }
 };
 
@@ -112,104 +128,63 @@ const pauseHourglass = (e) => {
         }
     }
 }
+const calculateEndTime = () => {
+    const startTime = getStartTimeField().value;
+    const duration = getDurationField().value;
+    const [hours, minutes] = startTime.split(':').map(Number);
+    const {calcHours, calcMinutes} = calcHoursAndMinutes(duration);
+    let endMinutes = minutes + calcMinutes;
+    let endHours = hours + calcHours;
 
-document.addEventListener('DOMContentLoaded', (event) => {
-    const startTimeValue = document.querySelector('#input-start-time');
-    const endTimeValue = document.querySelector('#input-end-time');
+    if (endMinutes >= 60) {
+        endHours += Math.floor(endMinutes / 60);
+    }
+    endMinutes = endMinutes % 60;
+    endHours %= 24;
 
+    const endTime = `${endHours}:${endMinutes}`
+    const paddedEndTime = endTime.split(':').map(e => `0${e}`.slice(-2)).join(':')
 
-    const calculateEndTime = (startTimeValue, durationValue) => {
+    getEndTimeField().value = paddedEndTime; //set Endtime
 
-        var [hours, minutes] = startTimeValue.value.split(':').map(Number);
+}
 
-        const {calcHours, calcMinutes} = calcHoursAndMinutes(durationValue);
+const calculateStartTime = () => {
+    const endTime = getEndTimeField().value;
+    const duration = getDurationField().value;
+    const [hours, minutes] = endTime.split(':').map(Number);
+    const {calcHours, calcMinutes} = calcHoursAndMinutes(duration);
+    let startMinutes = minutes - calcMinutes;
+    let startHours = hours - calcHours;
 
-        var endMinutes = minutes + calcMinutes;
-        var endHours = hours + calcHours;
-
-        if (endMinutes >= 60) {
-            endHours += Math.floor(endMinutes / 60);
-        }
-        endMinutes = endMinutes % 60;
-        endHours %= 24;
-
-        var endTime = `${endHours}:${endMinutes}`
-        var paddedEndTime = endTime.split(':').map(e => `0${e}`.slice(-2)).join(':')
-
-        setEndTime(paddedEndTime);
-        return paddedEndTime;
-
+    if (startMinutes >= 60) {
+        startHours -= 1;
+        startMinutes += 60;
     }
 
-    const calculateStartTime = (endTimeValue, durationValue) => {
-        var [hours, minutes] = endTimeValue.value.split(':').map(Number);
-
-        const {calcHours, calcMinutes} = calcHoursAndMinutes(durationValue);
-
-        var startMinutes = minutes - calcMinutes;
-        var startHours = hours - calcHours;
-
-        if (startMinutes >= 60) {
-            startHours -= 1;
-            startMinutes += 60;
-        }
-
-        if (startMinutes < 0) {
-            startHours -= 1;
-            startMinutes += 60;
-        }
-
-        startHours = (startHours + 24) % 24;
-
-        var startTime = `${startHours}:${startMinutes}`
-        var paddedStartTime = startTime.split(':').map(e => `0${e}`.slice(-2)).join(':')
-
-        setStartTime(paddedStartTime);
-
-        return paddedStartTime;
+    if (startMinutes < 0) {
+        startHours -= 1;
+        startMinutes += 60;
     }
+    startHours = (startHours + 24) % 24;
+    const startTime = `${startHours}:${startMinutes}`
+    const paddedStartTime = startTime.split(':').map(e => `0${e}`.slice(-2)).join(':')
+    getStartTimeField().value = paddedStartTime; //set Starttime
+}
 
+const  calcHoursAndMinutes = (durationValue) => {
+    const calcHours = Math.floor(durationValue / 60);
+    const calcMinutes = durationValue % 60;
+    return {calcHours, calcMinutes};
+}
 
-    const  calcHoursAndMinutes = (durationValue) => {
-        const calcHours = Math.floor(durationValue / 60);
-        const calcMinutes = durationValue % 60;
-        return {calcHours, calcMinutes};
+const updateTime = (e) => {
+    if (getStartTimeField().value) {
+        calculateEndTime();
+    } else if (getEndTimeField().value) {
+        calculateStartTime();
     }
-
-    function setStartTime(paddedStartTime) {
-        document.getElementById("input-start-time").value = paddedStartTime;
-    }
-
-    function setEndTime(paddedEndTime) {
-        document.getElementById("input-end-time").value = paddedEndTime;
-    }
-
-    //EventListeners
-    startTimeValue.addEventListener('change', () => {
-        const durationValue = getDurationField().value;
-        if (startTimeValue.value && durationValue) {
-            calculateEndTime(startTimeValue, durationValue);
-        }
-    });
-
-    endTimeValue.addEventListener('change', () => {
-        const durationValue = getDurationField().value;
-        if (endTimeValue.value && durationValue) {
-            calculateStartTime(endTimeValue, durationValue);
-        }
-    });
-
-    const updateValue = (e) => {
-        if (startTimeValue.value) {
-            calculateEndTime(startTimeValue, e.target.value);
-        } else if (endTimeValue.value) {
-            calculateStartTime(endTimeValue, e.target.value);
-        }
-    }
-
-    getDurationField().addEventListener('change', updateValue);
-
-});
+}
 
 
 
