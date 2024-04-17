@@ -1,9 +1,10 @@
+//global getter functions
 const getHourglass = () => document.querySelector('#hourglass_drag');
 const getTubes = () => document.querySelectorAll('.tube_drag');
 let hourglassTurned = false;
-
 const getDurationField = () => document.querySelector('#dauer');
 
+//event listeners
 document.addEventListener('DOMContentLoaded', () => {
     getDurationField().value = null;
 
@@ -35,6 +36,8 @@ document.addEventListener('DOMContentLoaded', () => {
             e.target.value = 0;
         }
     })
+
+
 });
 
 // eslint-disable-next-line no-unused-vars
@@ -56,8 +59,7 @@ const dropHandler = (e) => {
         const duration = draggedElement.getAttribute('data-duration');
         const durationAsNumber = parseInt(duration, 10);
         const currentDurationValue = getDurationField().value === "" ? 0 : parseInt(getDurationField().value, 10);
-
-        getDurationField().value = currentDurationValue + durationAsNumber;
+        setDurationValue(currentDurationValue + durationAsNumber);
     } else if (draggedElement.id === 'hourglass_drag') {
         if (dropZoneRight.contains(draggedElement)) {
             //Sanduhr von rechts nach links zurück ziehen
@@ -81,15 +83,20 @@ const dropHandler = (e) => {
     }
 };
 
+const setDurationValue = (newDurationValue) => {
+    getDurationField().value = newDurationValue;
+    getDurationField().dispatchEvent(new Event("change"))
+}
+
 const addFiveMins = () => {
-    const currentDurationValue = getDurationField().value === "" ? 0 : parseInt(getDurationField().value, 10);
-    getDurationField().value = currentDurationValue + 5;
+    const currentDurationValue = getDurationField().value === "" ? 0 : parseInt(getDurationField().value);
+    setDurationValue(currentDurationValue + 5);
 }
 
 const subtractFiveMins = () => {
-    const currentDurationValue = getDurationField().value === "" ? 0 : parseInt(getDurationField().value, 10);
+    const currentDurationValue = getDurationField().value === "" ? 0 : parseInt(getDurationField().value);
     if(currentDurationValue !== 0) {
-        getDurationField().value = currentDurationValue - 5;
+        setDurationValue(currentDurationValue - 5);
     }
 }
 
@@ -107,9 +114,8 @@ const pauseHourglass = (e) => {
 }
 
 document.addEventListener('DOMContentLoaded', (event) => {
-    var startTimeValue = document.querySelector('#input-start-time');
-    var endTimeValue = document.querySelector('#input-end-time');
-    var durationValue = getDurationField();
+    const startTimeValue = document.querySelector('#input-start-time');
+    const endTimeValue = document.querySelector('#input-end-time');
 
 
     const calculateEndTime = (startTimeValue, durationValue) => {
@@ -180,28 +186,29 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     //EventListeners
     startTimeValue.addEventListener('change', () => {
+        const durationValue = getDurationField().value;
         if (startTimeValue.value && durationValue) {
             calculateEndTime(startTimeValue, durationValue);
         }
     });
 
     endTimeValue.addEventListener('change', () => {
+        const durationValue = getDurationField().value;
         if (endTimeValue.value && durationValue) {
             calculateStartTime(endTimeValue, durationValue);
         }
     });
 
-    durationValue.addEventListener('change', updateValue);
-
-    function updateValue(e) {
-        durationValue = e.target.value;
-
+    const updateValue = (e) => {
         if (startTimeValue.value) {
-            calculateEndTime(startTimeValue, durationValue);
+            calculateEndTime(startTimeValue, e.target.value);
         } else if (endTimeValue.value) {
-            calculateStartTime(endTimeValue, durationValue);
+            calculateStartTime(endTimeValue, e.target.value);
         }
     }
+
+    getDurationField().addEventListener('change', updateValue);
+
 });
 
 
