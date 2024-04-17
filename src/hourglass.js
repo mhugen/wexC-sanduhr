@@ -74,7 +74,6 @@ const dropHandler = (e) => {
 const addFiveMins = () => {
     const currentDurationValue = getDurationField().value === "" ? 0 : parseInt(getDurationField().value, 10);
     getDurationField().value = currentDurationValue + 5;
-    console.log("asdf")
 }
 
 const subtractFiveMins = () => {
