@@ -1,6 +1,5 @@
 const getHourglass = () => document.querySelector('#hourglass_drag');
 const getTubes = () => document.querySelectorAll('.tube_drag');
-const getHourglassImg = () => document.querySelectorAll('.hourglass');
 let hourglassTurned = false;
 
 const getDurationField = () => document.querySelector('#dauer');
@@ -12,13 +11,14 @@ document.addEventListener('DOMContentLoaded', () => {
         tube.addEventListener('dragstart', (event) => {
             event.dataTransfer.setData('text/plain', tube.dataset.duration);
         });
-        console.log(tube);
     });
 
     const hourglass = getHourglass();
     hourglass.addEventListener('dragstart', (event) => {
         event.dataTransfer.setData('text/plain', hourglass.dataset.duration);
     });
+
+    hourglass.addEventListener('click', pauseHourglass);
 
     hourglass.addEventListener('dragstart', (event) => {
         event.dataTransfer.setData('text/plain', hourglass.dataset.duration);
@@ -89,35 +89,15 @@ const subtractFiveMins = () => {
     }
 }
 
-const rotateHourglass = (e) => {
+const pauseHourglass = (e) => {
     const dropZoneRight = document.getElementById('drop-zone-right');
     if (dropZoneRight.contains(e.target)) {
         if(hourglassTurned === false){
-            e.target.style.transform = "rotate(90deg)"
+            e.currentTarget.style.transform = "rotate(90deg)"
             hourglassTurned = true;
         } else {
-            e.target.style.transform = "rotate(0deg)"
+            e.currentTarget.style.transform = "rotate(0deg)"
             hourglassTurned = false;
         }
     }
-}
-
-
-const enterDuration = (e) => {
-    if (e.key !== "Enter") {
-        return;
-    }
-    if (validateDuration) {
-        console.log("Enter key pressed", e)
-    } else {
-        return false;
-    }
-}
-
-const validateDuration = () => {
-    return true;
-}
-
-const validateStarttime = () => {
-    return true;
 }
