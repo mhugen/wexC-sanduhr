@@ -102,6 +102,25 @@ const dropHandler = (e) => {
     }
 };
 
+const compareCurrentAndStarttime = () => {
+    const currentTime = new Date().toLocaleString([], {hour: '2-digit', minute:'2-digit'}).replace(':', '');
+    const startTime = getStartTimeField().value.replace(':', '');
+    let difference = startTime - currentTime;
+    console.log(getStartTimeField().value)
+    console.log(new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}))
+    console.log(difference)
+    if(difference === 0){
+        setTimeout(console.log("start Hourglass!"), difference)
+        startHourglass();
+    }
+}
+
+const startHourglass = () => {
+    
+}
+
+setInterval(compareCurrentAndStarttime, 1000);
+
 const setDurationValue = (newDurationValue) => {
     getDurationField().value = newDurationValue;
     getDurationField().dispatchEvent(new Event("change"))
