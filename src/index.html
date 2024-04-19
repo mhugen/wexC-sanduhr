@@ -81,7 +81,7 @@
                 </div>
                 <div class="flex">
                     <button id="minus">-</button>
-                    <input type="text" placeholder="Dauer" name="dauer" id="dauer"/>
+                    <input type="text" placeholder="Dauer" name="duration" id="duration"/>
                     <button id="plus">+</button>
                 </div>
 
@@ -90,15 +90,14 @@
     </section>
 
     <section class="start-end-time">
-        <label for="input-start-time">enter start-time</label>
-        <input type="text" name="startzeit" id="input-start-time" />
+        <label for="input-start-time">Startzeit</label>
+        <input type="text" name="starting-time" id="input-start-time" />
+        <label for="input-end-time">Endzeit</label>
+        <input type="text" name="end-time" id="input-end-time"/>
         <div id="drop-zone-right"
              ondrop="dropHandler(event)"
              ondragover="dragoverHandler(event)">
         </div>
-
-        <label for="input-end-time">end-time</label>
-        <input type="text" name="endzeit" id="input-end-time"/>
     </section>
     </main>
  </body>
