@@ -46,7 +46,7 @@ label {
   margin-right: 5px;
 }
 
-button {                    /* Button to be personalized */
+button {
   background: #c5c2c2;
 
 }
@@ -58,7 +58,6 @@ button {                    /* Button to be personalized */
 #duration {
   width: 4em;
 }
-
 
 .draggable {
   display: flex;
@@ -95,6 +94,7 @@ button {                    /* Button to be personalized */
 #hourglass{
   width: 104px;
   margin: 0 auto;
+  transform-origin: center center;
 }
 
 #sand{
@@ -113,7 +113,7 @@ button {                    /* Button to be personalized */
 }
 
 .a, .b, .c, .d, .e, .f{
-  background-color: #c5c2c2;
+  background-color: #406B9D;
   height: 8px;
   margin: 0 auto;
 }

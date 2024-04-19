@@ -1,8 +1,9 @@
 //global getter functions
-const getHourglass = () => document.querySelector('#hourglass_drag');
+const getHourglassDrag = () => document.querySelector('#hourglass_drag');
+const getHourglass = () => document.querySelector('#hourglass');
 const getTubes = () => document.querySelectorAll('.tube_drag');
-let hourglassTurned = false;
-const getDurationField = () => document.querySelector('#dauer');
+let hourglassPaused = false;
+const getDurationField = () => document.querySelector('#duration');
 
 const getStartTimeField = () => document.querySelector('#input-start-time');
 const getEndTimeField = () => document.querySelector('#input-end-time');
@@ -10,6 +11,7 @@ const getEndTimeField = () => document.querySelector('#input-end-time');
 //event listeners
 document.addEventListener('DOMContentLoaded', () => {
     getDurationField().value = null;
+    intervalBefore();
 
     //drag event listener for tubes
     getTubes().forEach((tube) => {
@@ -18,15 +20,15 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    const hourglass = getHourglass();
+    const hourglassDrag = getHourglassDrag();
 
     //drag event listener for hourglass
-    hourglass.addEventListener('dragstart', (event) => {
-        event.dataTransfer.setData('text/plain', hourglass.dataset.duration);
+    hourglassDrag.addEventListener('dragstart', (event) => {
+        event.dataTransfer.setData('text/plain', hourglassDrag.dataset.duration);
     });
 
     //click event listener to pause hourglass if on right side
-    hourglass.addEventListener('click', pauseHourglass);
+    hourglassDrag.addEventListener('click', pauseHourglass);
 
     //power user buttons to add or subtract to/from duration
     document.querySelector('#plus').addEventListener('click', addFiveMins)
@@ -54,7 +56,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     getDurationField().addEventListener('change', updateTime);
-
 });
 
 // eslint-disable-next-line no-unused-vars
@@ -62,7 +63,6 @@ const dragoverHandler = (e) => {
     e.preventDefault();
     e.dataTransfer.dropEffect = 'move';
 };
-
 
 // eslint-disable-next-line no-unused-vars
 const dropHandler = (e) => {
@@ -81,9 +81,9 @@ const dropHandler = (e) => {
         if (dropZoneRight.contains(draggedElement)) {
             //Sanduhr von rechts nach links zurück ziehen
             const existingElement = dropZoneRight.childNodes[1];
-            if (hourglassTurned) {
+            if (hourglassPaused) {
                 existingElement.childNodes[1].style.transform = "rotate(0deg)"
-                hourglassTurned = false;
+                hourglassPaused = false;
             }
             dropZoneRight.removeChild(existingElement);
             dropZoneLeft.appendChild(existingElement);
@@ -101,6 +101,55 @@ const dropHandler = (e) => {
         }
     }
 };
+
+
+const compareCurrentAndStarttime = () => {
+    const currentTime = new Date().toLocaleString([], {hour: '2-digit', minute:'2-digit'}).replace(':', '');
+    const startTime = getStartTimeField().value.replace(':', '');
+    let difference = startTime - currentTime;
+    console.log(startTime)
+    console.log(currentTime)
+    console.log(difference)
+    if(difference === 0){
+        startHourglass();
+        clearInterval(intervalBefore);
+        intervalDuring();
+    }
+}
+
+const compareCurrentAndEndtime = () => {
+    const currentTime = new Date().toLocaleString([], {hour: '2-digit', minute:'2-digit'}).replace(':', '');
+    const endTime = getEndTimeField().value.replace(':', '');
+    let difference = endTime - currentTime;
+    if(difference === 0){
+        clearInterval(intervalDuring);
+        intervalBefore();
+        return true;
+    }
+    return false;
+}
+
+const intervalBefore = () => setInterval(compareCurrentAndStarttime, 1000);
+const intervalDuring = () => setInterval(compareCurrentAndEndtime, 1000);
+
+const startHourglass = () => {
+  console.log("timer started!");
+  const dropZoneRight = document.querySelector('#drop-zone-right');
+  if(dropZoneRight.contains(getHourglassDrag())){
+      const interval = setInterval(() => {
+          if(!compareCurrentAndEndtime()) {
+              rotateHourglass();
+
+          } else {
+              clearInterval(interval);
+          }
+      }, 1000)
+  }
+}
+
+const rotateHourglass = () => {
+    let rotation = 0;
+}
 
 const setDurationValue = (newDurationValue) => {
     getDurationField().value = newDurationValue;
@@ -122,12 +171,12 @@ const subtractFiveMins = () => {
 const pauseHourglass = (e) => {
     const dropZoneRight = document.getElementById('drop-zone-right');
     if (dropZoneRight.contains(e.target)) {
-        if(hourglassTurned === false){
+        if(hourglassPaused === false){
             e.currentTarget.style.transform = "rotate(90deg)"
-            hourglassTurned = true;
+            hourglassPaused = true;
         } else {
             e.currentTarget.style.transform = "rotate(0deg)"
-            hourglassTurned = false;
+            hourglassPaused = false;
         }
     }
 }
@@ -188,6 +237,5 @@ const updateTime = (e) => {
         calculateStartTime();
     }
 }
-
 
 
