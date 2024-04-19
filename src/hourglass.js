@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
     //set duration to 0 when input field looses focus, if duration < 0 or duration === NaN
     getDurationField().addEventListener('blur', (e) => {
         const num = parseInt(e.target.value);
-        if (isNaN(num) || num < 0){
+        if (isNaN(num) || num < 0) {
             e.target.value = 0;
         }
     })
@@ -56,6 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     getDurationField().addEventListener('change', updateTime);
+
 });
 
 // eslint-disable-next-line no-unused-vars
@@ -97,31 +98,42 @@ const dropHandler = (e) => {
             }
             dropZoneRight.appendChild(draggedElement)
             const duration = getDurationField().value;
-            document.querySelector('#timer_display').innerHTML = duration;
+            const durationFormatted = () => {
+                let durationInSeconds = duration * 60;
+                let hours = Math.floor(durationInSeconds / 3600);
+                let minutes = Math.floor((durationInSeconds % 3600) / 60);
+                let seconds = durationInSeconds % 60;
+
+                hours = hours < 10 ? '0' + hours : hours;
+                minutes = minutes < 10 ? '0' + minutes : minutes;
+                seconds = seconds < 10 ? '0' + seconds : seconds;
+
+                return `${hours}:${minutes}:${seconds}`
+
+            }
+            document.querySelector('#timer_display').innerHTML = durationFormatted();
         }
     }
 };
 
 
 const compareCurrentAndStarttime = () => {
-    const currentTime = new Date().toLocaleString([], {hour: '2-digit', minute:'2-digit'}).replace(':', '');
+    const currentTime = new Date().toLocaleString([], {hour: '2-digit', minute: '2-digit'}).replace(':', '');
     const startTime = getStartTimeField().value.replace(':', '');
     let difference = startTime - currentTime;
-    console.log(startTime)
-    console.log(currentTime)
-    console.log(difference)
-    if(difference === 0){
+    if (difference === 0) {
         startHourglass();
         clearInterval(intervalBefore);
         intervalDuring();
+        startCountdown();
     }
 }
 
 const compareCurrentAndEndtime = () => {
-    const currentTime = new Date().toLocaleString([], {hour: '2-digit', minute:'2-digit'}).replace(':', '');
+    const currentTime = new Date().toLocaleString([], {hour: '2-digit', minute: '2-digit'}).replace(':', '');
     const endTime = getEndTimeField().value.replace(':', '');
     let difference = endTime - currentTime;
-    if(difference === 0){
+    if (difference === 0) {
         clearInterval(intervalDuring);
         intervalBefore();
         return true;
@@ -133,18 +145,18 @@ const intervalBefore = () => setInterval(compareCurrentAndStarttime, 1000);
 const intervalDuring = () => setInterval(compareCurrentAndEndtime, 1000);
 
 const startHourglass = () => {
-  console.log("timer started!");
-  const dropZoneRight = document.querySelector('#drop-zone-right');
-  if(dropZoneRight.contains(getHourglassDrag())){
-      const interval = setInterval(() => {
-          if(!compareCurrentAndEndtime()) {
-              rotateHourglass();
+    console.log("timer started!");
+    const dropZoneRight = document.querySelector('#drop-zone-right');
+    if (dropZoneRight.contains(getHourglassDrag())) {
+        const interval = setInterval(() => {
+            if (!compareCurrentAndEndtime()) {
+                rotateHourglass();
 
-          } else {
-              clearInterval(interval);
-          }
-      }, 1000)
-  }
+            } else {
+                clearInterval(interval);
+            }
+        }, 1000)
+    }
 }
 
 const rotateHourglass = () => {
@@ -163,7 +175,7 @@ const addFiveMins = () => {
 
 const subtractFiveMins = () => {
     const currentDurationValue = getDurationField().value === "" ? 0 : parseInt(getDurationField().value);
-    if(currentDurationValue !== 0) {
+    if (currentDurationValue !== 0) {
         setDurationValue(currentDurationValue - 5);
     }
 }
@@ -171,7 +183,7 @@ const subtractFiveMins = () => {
 const pauseHourglass = (e) => {
     const dropZoneRight = document.getElementById('drop-zone-right');
     if (dropZoneRight.contains(e.target)) {
-        if(hourglassPaused === false){
+        if (hourglassPaused === false) {
             e.currentTarget.style.transform = "rotate(90deg)"
             hourglassPaused = true;
         } else {
@@ -224,7 +236,7 @@ const calculateStartTime = () => {
     getStartTimeField().value = paddedStartTime; //set Starttime
 }
 
-const  calcHoursAndMinutes = (durationValue) => {
+const calcHoursAndMinutes = (durationValue) => {
     const calcHours = Math.floor(durationValue / 60);
     const calcMinutes = durationValue % 60;
     return {calcHours, calcMinutes};
@@ -237,5 +249,41 @@ const updateTime = (e) => {
         calculateStartTime();
     }
 }
+
+const startCountdown = () => {
+    const totalMinutes = getDurationField().value;
+    const display = document.querySelector('#timer_display');
+    startTimer(totalMinutes, display);
+}
+
+
+const startTimer = (totalMinutes, display) => {
+    let timeInSeconds = totalMinutes * 60;
+    const updateDisplay = () => {
+        let hours = Math.floor(timeInSeconds / 3600);
+        let minutes = Math.floor((timeInSeconds % 3600) / 60);
+        let seconds = timeInSeconds % 60;
+
+        hours = hours < 10 ? '0' + hours : hours;
+        minutes = minutes < 10 ? '0' + minutes : minutes;
+        seconds = seconds < 10 ? '0' + seconds : seconds;
+
+        display.textContent = `${hours}:${minutes}:${seconds}`;
+
+        if (timeInSeconds < 0) {
+            display.innerHTML = "00:00:00";
+            clearInterval(timerInterval)
+        }
+    };
+
+    updateDisplay();
+
+    const timerInterval = setInterval(() => {
+        timeInSeconds--;
+        updateDisplay();
+    }, 1000);
+
+}
+
 
 
