@@ -12,6 +12,9 @@ const getStartTimeField = () => document.querySelector('#input-start-time');
 const getEndTimeField = () => document.querySelector('#input-end-time');
 const getTimerDisplay = () => document.querySelector('#timer_display');
 
+let isRunning = null;
+
+
 /**
  * set up all event listeners
  */
@@ -89,7 +92,7 @@ const dropHandler = (e) => {
         const currentDurationValue = getDurationField().value === "" ? 0 : parseInt(getDurationField().value, 10);
         setDurationValue(currentDurationValue + durationAsNumber);
     } else if (draggedElement.id === 'hourglass_drag') {
-        if (dropZoneRight.contains(draggedElement)) {
+        if (dropZoneRight.contains(draggedElement) && !isRunning) {
             //Sanduhr von rechts nach links zurück ziehen
             const existingElement = dropZoneRight.childNodes[1];
             if (hourglassPaused) {
@@ -131,7 +134,6 @@ const dropHandler = (e) => {
  *  and stop it as soon as the end time is reached
  *  rotate hourglass during the time it's running
  ***/
-let isRunning = null;
 const compareCurrentTime = () => {
     const currentTime = new Date().toLocaleString([], {hour: '2-digit', minute: '2-digit'}).replace(':', '');
     const startTime = getStartTimeField().value.replace(':', '');
