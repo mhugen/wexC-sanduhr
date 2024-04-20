@@ -7,47 +7,49 @@
     <link rel="stylesheet" href="styles.css"/>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&family=Modak&family=Pixelify+Sans:wght@400..700&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&family=Modak&family=Pixelify+Sans:wght@400..700&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap"
+          rel="stylesheet">
     <script src="hourglass.js"></script>
 </head>
 <body>
 <main id="grid">
     <section id="set-time">
-            <div id="tubes">
-                <div class="draggable tube_drag" draggable="true" data-duration="5">
-                    <div class="tube" id="tube1">
-                    </div>
-                    <p>5 min</p>
+        <div id="tubes">
+            <div class="draggable tube_drag" draggable="true" data-duration="5">
+                <div class="tube" id="tube1">
                 </div>
-                <div class="draggable tube_drag" draggable="true" data-duration="10">
-                    <div class="tube" id="tube2">
-                        <div class="tube-content"></div>
-                        <div class="middle-pixels"></div>
-                        <div class="bottom-pixels"></div>
-                    </div>
-                        <p>10 min</p>
-                </div>
-                <div class="draggable tube_drag" draggable="true" data-duration="15">
-                    <div class="tube" id="tube3">
-                        <div class="tube-content"></div>
-                        <div class="middle-pixels"></div>
-                        <div class="bottom-pixels"></div>
-                    </div>
-                        <p>15 min</p>
-                </div>
-                <div class="draggable tube_drag" draggable="true" data-duration="30">
-                    <div class="tube" id="tube4">
-                        <div class="tube-content"></div>
-                        <div class="middle-pixels"></div>
-                        <div class="bottom-pixels"></div>
-                    </div>
-                        <p>30 min</p>
-                </div>
+                <p>5 min</p>
             </div>
-            <div id="drop-zone-left"
-                 ondrop="dropHandler(event)"
-                 ondragover="dragoverHandler(event)">
-                <div class="draggable" id="hourglass_drag" draggable="true" data-duration="free">
+            <div class="draggable tube_drag" draggable="true" data-duration="10">
+                <div class="tube" id="tube2">
+                    <div class="tube-content"></div>
+                    <div class="middle-pixels"></div>
+                    <div class="bottom-pixels"></div>
+                </div>
+                <p>10 min</p>
+            </div>
+            <div class="draggable tube_drag" draggable="true" data-duration="15">
+                <div class="tube" id="tube3">
+                    <div class="tube-content"></div>
+                    <div class="middle-pixels"></div>
+                    <div class="bottom-pixels"></div>
+                </div>
+                <p>15 min</p>
+            </div>
+            <div class="draggable tube_drag" draggable="true" data-duration="30">
+                <div class="tube" id="tube4">
+                    <div class="tube-content"></div>
+                    <div class="middle-pixels"></div>
+                    <div class="bottom-pixels"></div>
+                </div>
+                <p>30 min</p>
+            </div>
+        </div>
+        <div id="drop-zone-left"
+             ondrop="dropHandler(event)"
+             ondragover="dragoverHandler(event)">
+            <div class="draggable" id="hourglass_drag" draggable="true" data-duration="free">
+                <div id="container">
                     <div id="hourglass">
                         <div class="a"></div>
                         <div class="b"></div>
@@ -77,21 +79,22 @@
                         <div class="grain g12 hide"></div>
                         <div class="grain g13"></div>
                     </div>
-                    <p id="timer_display"></p>
                 </div>
-                <div class="flex">
-                    <button id="minus">-</button>
-                    <input type="text" placeholder="Dauer" name="duration" id="duration"/>
-                    <button id="plus">+</button>
-                </div>
-
+                <p id="timer_display"></p>
             </div>
+            <div class="flex duration_field">
+                <button id="minus">-</button>
+                <input type="text" placeholder="Dauer" name="duration" id="duration"/>
+                <button id="plus">+</button>
+            </div>
+
+        </div>
         </div>
     </section>
 
     <section class="start-end-time">
         <label for="input-start-time">Startzeit</label>
-        <input type="text" name="starting-time" id="input-start-time" />
+        <input type="text" name="starting-time" id="input-start-time"/>
         <label for="input-end-time">Endzeit</label>
         <input type="text" name="end-time" id="input-end-time"/>
         <div id="drop-zone-right"
@@ -99,6 +102,6 @@
              ondragover="dragoverHandler(event)">
         </div>
     </section>
-    </main>
- </body>
+</main>
+</body>
 </html>

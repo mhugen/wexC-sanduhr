@@ -32,11 +32,6 @@ body {
   align-items: center;
 }
 
-#drop-zone-left {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-}
-
 #drop-zone-right {
   padding: 2em;
 }
@@ -66,7 +61,6 @@ button {
   margin: 20px;
 }
 
-
 #tubes {
   grid-column: 1 / -1;
   display: flex;
@@ -75,8 +69,11 @@ button {
 
 }
 
-/** tube **/
+.duration_field {
+  justify-content: center;
+}
 
+/** tube **/
 .tube {
   width: 20px;
   height: 70px;
@@ -96,6 +93,11 @@ button {
   margin: 0 auto;
   transform-origin: center center;
 }
+
+#container {
+  transform-origin: center center;
+  height: 177px;
+ }
 
 #sand{
   margin: 0 auto;
