@@ -48,6 +48,11 @@
         <div id="drop-zone-left"
              ondrop="dropHandler(event)"
              ondragover="dragoverHandler(event)">
+            <div class="flex duration_field">
+                <button id="minus">-</button>
+                <input type="text" placeholder="Dauer" name="duration" id="duration"/>
+                <button id="plus">+</button>
+            </div>
             <div class="draggable" id="hourglass_drag" draggable="true" data-duration="free">
                 <div id="container">
                     <div id="hourglass">
@@ -82,12 +87,6 @@
                 </div>
                 <p id="timer_display"></p>
             </div>
-            <div class="flex duration_field">
-                <button id="minus">-</button>
-                <input type="text" placeholder="Dauer" name="duration" id="duration"/>
-                <button id="plus">+</button>
-            </div>
-
         </div>
         </div>
     </section>

@@ -10,6 +10,7 @@ const getDurationField = () => document.querySelector('#duration');
 
 const getStartTimeField = () => document.querySelector('#input-start-time');
 const getEndTimeField = () => document.querySelector('#input-end-time');
+const getTimerDisplay = () => document.querySelector('#timer_display');
 
 /**
  * set up all event listeners
@@ -33,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     //click event listener to pause hourglass if on right side
-    hourglassDrag.addEventListener('click', pauseHourglass);
+    //hourglassDrag.addEventListener('click', pauseHourglass);
 
     //power user buttons to add or subtract to/from duration
     document.querySelector('#plus').addEventListener('click', addFiveMins)
@@ -120,7 +121,7 @@ const dropHandler = (e) => {
                 return `${hours}:${minutes}:${seconds}`
 
             }
-            document.querySelector('#timer_display').innerHTML = durationFormatted();
+            getTimerDisplay().innerHTML = durationFormatted();
         }
     }
 };
@@ -131,13 +132,13 @@ const dropHandler = (e) => {
  *  rotate hourglass during the time it's running
  ***/
 let isRunning = null;
-const compareCurrentAndStarttime = () => {
+const compareCurrentTime = () => {
     const currentTime = new Date().toLocaleString([], {hour: '2-digit', minute: '2-digit'}).replace(':', '');
     const startTime = getStartTimeField().value.replace(':', '');
     const endTime = getEndTimeField().value.replace(':', '');
     let differenceStart = startTime - currentTime;
     let differenceEnd = endTime - currentTime;
-    if(differenceStart === 0){
+    if(!isRunning && differenceStart === 0){
         startHourglass();
         startCountdown();
     } else if (differenceEnd === 0) {
@@ -146,7 +147,7 @@ const compareCurrentAndStarttime = () => {
     }
 }
 
-const timeInterval = () => setInterval(compareCurrentAndStarttime, 2000);
+const timeInterval = () => setInterval(compareCurrentTime, 2000);
 const startHourglass = () => {
   const dropZoneRight = document.querySelector('#drop-zone-right');
   if(dropZoneRight.contains(getHourglassDrag())) {
@@ -158,7 +159,7 @@ const startRotating = () => {
     if(!isRunning){
         isRunning = setInterval(() => {
             rotateElement(getHourglassContainer(), rotDegrees)
-            rotDegrees += 90;
+            rotDegrees += 45;
         }, 2000)
     }
 }
@@ -178,9 +179,7 @@ const addFiveMins = () => {
 
 const subtractFiveMins = () => {
     const currentDurationValue = getDurationField().value === "" ? 0 : parseInt(getDurationField().value);
-    if (currentDurationValue !== 0) {
-        setDurationValue(currentDurationValue - 5);
-    }
+    currentDurationValue > 1 ? setDurationValue(currentDurationValue - 5) : setDurationValue(0);
 }
 
 /*const pauseHourglass = (e) => {
@@ -256,13 +255,13 @@ const updateTime = (e) => {
     }
 }
 
+/**
+ * Countdown when timer is running
+ */
 const startCountdown = () => {
     const totalMinutes = getDurationField().value;
-    const display = document.querySelector('#timer_display');
-    startTimer(totalMinutes, display);
+    startTimer(totalMinutes, getTimerDisplay());
 }
-
-
 const startTimer = (totalMinutes, display) => {
     let timeInSeconds = totalMinutes * 60;
     const updateDisplay = () => {
@@ -274,6 +273,7 @@ const startTimer = (totalMinutes, display) => {
         minutes = minutes < 10 ? '0' + minutes : minutes;
         seconds = seconds < 10 ? '0' + seconds : seconds;
 
+        console.log("asdf", hours, minutes, seconds);
         display.textContent = `${hours}:${minutes}:${seconds}`;
 
         if (timeInSeconds < 0) {
@@ -288,7 +288,6 @@ const startTimer = (totalMinutes, display) => {
         timeInSeconds--;
         updateDisplay();
     }, 1000);
-
 }
 
 
