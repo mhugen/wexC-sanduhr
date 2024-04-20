@@ -1,4 +1,7 @@
-//global getter functions
+/**
+ * global getter functions for dom elements
+ * @returns {Element}
+ */
 const getHourglassDrag = () => document.querySelector('#hourglass_drag');
 const getHourglassContainer = () => document.querySelector('#container');
 const getTubes = () => document.querySelectorAll('.tube_drag');
@@ -8,7 +11,9 @@ const getDurationField = () => document.querySelector('#duration');
 const getStartTimeField = () => document.querySelector('#input-start-time');
 const getEndTimeField = () => document.querySelector('#input-end-time');
 
-//event listeners
+/**
+ * set up all event listeners
+ */
 document.addEventListener('DOMContentLoaded', () => {
     getDurationField().value = null;
     timeInterval();
@@ -58,6 +63,11 @@ document.addEventListener('DOMContentLoaded', () => {
     getDurationField().addEventListener('change', updateTime);
 });
 
+/**
+ * Drag and drop functionality for tubes (to set duration)
+ * and the hourglass (to set the timer)
+ * @param e
+ */
 // eslint-disable-next-line no-unused-vars
 const dragoverHandler = (e) => {
     e.preventDefault();
@@ -102,6 +112,11 @@ const dropHandler = (e) => {
     }
 };
 
+/**
+ *  start the timer when starting time arrives
+ *  and stop it as soon as the end time is reached
+ *  rotate hourglass during the time it's running
+ ***/
 let isRunning = null;
 const compareCurrentAndStarttime = () => {
     const currentTime = new Date().toLocaleString([], {hour: '2-digit', minute:'2-digit'}).replace(':', '');
@@ -109,10 +124,6 @@ const compareCurrentAndStarttime = () => {
     const endTime = getEndTimeField().value.replace(':', '');
     let differenceStart = startTime - currentTime;
     let differenceEnd = endTime - currentTime;
-    console.log(startTime)
-    console.log(currentTime)
-    console.log(differenceStart)
-    console.log("End difference: " + differenceEnd)
     if(differenceStart === 0){
         startHourglass();
     } else if (differenceEnd === 0) {
@@ -123,7 +134,6 @@ const compareCurrentAndStarttime = () => {
 
 const timeInterval = () => setInterval(compareCurrentAndStarttime, 2000);
 const startHourglass = () => {
-  console.log("timer started!");
   const dropZoneRight = document.querySelector('#drop-zone-right');
   if(dropZoneRight.contains(getHourglassDrag())) {
       startRotating();
@@ -169,6 +179,10 @@ const subtractFiveMins = () => {
         }
     }
 }*/
+
+/**
+ *  use duration to calculate endtime accordingly
+ */
 const calculateEndTime = () => {
     const startTime = getStartTimeField().value;
     const duration = getDurationField().value;
@@ -187,7 +201,6 @@ const calculateEndTime = () => {
     const paddedEndTime = endTime.split(':').map(e => `0${e}`.slice(-2)).join(':')
 
     getEndTimeField().value = paddedEndTime; //set Endtime
-
 }
 
 const calculateStartTime = () => {
