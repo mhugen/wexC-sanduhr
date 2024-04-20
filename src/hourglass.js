@@ -1,6 +1,6 @@
 //global getter functions
 const getHourglassDrag = () => document.querySelector('#hourglass_drag');
-const getHourglass = () => document.querySelector('#hourglass');
+const getHourglassContainer = () => document.querySelector('#container');
 const getTubes = () => document.querySelectorAll('.tube_drag');
 let hourglassPaused = false;
 const getDurationField = () => document.querySelector('#duration');
@@ -138,7 +138,7 @@ const startHourglass = () => {
   if(dropZoneRight.contains(getHourglassDrag())){
       const interval = setInterval(() => {
           if(!compareCurrentAndEndtime()) {
-              rotateHourglass();
+              startRotating();
 
           } else {
               clearInterval(interval);
@@ -147,9 +147,25 @@ const startHourglass = () => {
   }
 }
 
-const rotateHourglass = () => {
-    let rotation = 0;
+let isRunning = null;
+
+const rotateElement = (domElement, degrees) => {
+
+    domElement.style.transform =  'rotate('+degrees+'deg)';
+
 }
+const startRotating = () => {
+    let rotDegrees = 0;
+    if(!isRunning){
+
+        isRunning = setInterval(() => {
+            rotateElement(getHourglassContainer(), rotDegrees)
+            rotDegrees += 90;
+        }, 2000)
+    }
+
+}
+
 
 const setDurationValue = (newDurationValue) => {
     getDurationField().value = newDurationValue;
