@@ -64,7 +64,7 @@ body {
 }
 
 /** duration **/
-.duration_field {
+.duration_group {
   justify-content: center;
   gap: 10px;
 }
