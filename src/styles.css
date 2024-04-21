@@ -1,6 +1,7 @@
 body {
   background: #406B9D;
   font-family: "Roboto Mono", mono;
+  color: white;
 }
 
 #grid {
@@ -17,8 +18,12 @@ body {
 }
 
 .start-end-time input[type="text"] {
-  width: 80px;
+  width: 50px;
   margin-right: 2em;
+  background: #406B9D;
+  border: solid 3px #2B4F79;
+  padding: 5px 10px;
+  color: white;
 }
 
 .flex {
@@ -50,9 +55,6 @@ button {
   width: 2em;
 }
 
-#duration {
-  width: 4em;
-}
 
 .draggable {
   display: flex;
@@ -62,15 +64,31 @@ button {
 }
 
 #tubes {
-  grid-column: 1 / -1;
   display: flex;
   flex-direction: row;
-  align-items: center;
-
+  justify-content: center;
 }
 
+/** duration **/
 .duration_field {
   justify-content: center;
+  gap: 10px;
+}
+
+#duration {
+  width: 4em;
+  background: #406B9D;
+  border: solid 2px #BF8A00;
+  padding: 5px 10px;
+  color: white;
+}
+
+#plus, #minus {
+  background: #eca11a;
+  border: solid 3px #BF8A00 ;
+  width: 30px;
+  height: 30px;
+  font-size: 1.2em;
 }
 
 /** tube **/
@@ -108,7 +126,7 @@ button {
 }
 
 .grain {
-  background-color: #000000;
+  background-color: #eca11a;
   height: 8px;
   width: 8px;
   position: absolute;
