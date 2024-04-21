@@ -11,6 +11,7 @@ const getDurationField = () => document.querySelector('#duration');
 const getStartTimeField = () => document.querySelector('#input-start-time');
 const getEndTimeField = () => document.querySelector('#input-end-time');
 const getTimerDisplay = () => document.querySelector('#timer_display');
+const getStopButton = () => document.querySelector('#stop');
 
 let isRunning = null;
 
@@ -65,6 +66,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     getDurationField().addEventListener('change', updateTime);
+
+    getStopButton().addEventListener('click', resetTimer);
+    getStopButton().style.display = "none";
 });
 
 /**
@@ -143,9 +147,9 @@ const compareCurrentTime = () => {
     if(!isRunning && differenceStart === 0){
         startHourglass();
         startCountdown();
+        getStopButton().style.display = "block";
     } else if (differenceEnd === 0) {
-        clearInterval(isRunning);
-        rotateElement(getHourglassContainer(), 0)
+        resetTimer();
     }
 }
 
@@ -196,6 +200,54 @@ const subtractFiveMins = () => {
         }
     }
 }*/
+
+const resetTimer = () => {
+    //reset rotating
+    clearInterval(isRunning);
+    rotateElement(getHourglassContainer(), 0)
+
+    //reset countdown
+
+
+    //make hourglass draggable again
+
+}
+
+/**
+ * Countdown when timer is running
+ */
+const startCountdown = () => {
+    const totalMinutes = getDurationField().value;
+    startTimer(totalMinutes, getTimerDisplay());
+}
+const startTimer = (totalMinutes, display) => {
+    let timeInSeconds = totalMinutes * 60;
+    const updateDisplay = () => {
+        let hours = Math.floor(timeInSeconds / 3600);
+        let minutes = Math.floor((timeInSeconds % 3600) / 60);
+        let seconds = timeInSeconds % 60;
+
+        hours = hours < 10 ? '0' + hours : hours;
+        minutes = minutes < 10 ? '0' + minutes : minutes;
+        seconds = seconds < 10 ? '0' + seconds : seconds;
+
+        console.log("asdf", hours, minutes, seconds);
+        display.textContent = `${hours}:${minutes}:${seconds}`;
+
+        if (timeInSeconds < 0) {
+            display.innerHTML = "00:00:00";
+            clearInterval(timerInterval)
+        }
+    };
+
+    updateDisplay();
+
+    const timerInterval = setInterval(() => {
+        timeInSeconds--;
+        updateDisplay();
+    }, 1000);
+}
+
 
 /**
  *  use duration to calculate endtime accordingly
@@ -256,41 +308,5 @@ const updateTime = (e) => {
         calculateStartTime();
     }
 }
-
-/**
- * Countdown when timer is running
- */
-const startCountdown = () => {
-    const totalMinutes = getDurationField().value;
-    startTimer(totalMinutes, getTimerDisplay());
-}
-const startTimer = (totalMinutes, display) => {
-    let timeInSeconds = totalMinutes * 60;
-    const updateDisplay = () => {
-        let hours = Math.floor(timeInSeconds / 3600);
-        let minutes = Math.floor((timeInSeconds % 3600) / 60);
-        let seconds = timeInSeconds % 60;
-
-        hours = hours < 10 ? '0' + hours : hours;
-        minutes = minutes < 10 ? '0' + minutes : minutes;
-        seconds = seconds < 10 ? '0' + seconds : seconds;
-
-        console.log("asdf", hours, minutes, seconds);
-        display.textContent = `${hours}:${minutes}:${seconds}`;
-
-        if (timeInSeconds < 0) {
-            display.innerHTML = "00:00:00";
-            clearInterval(timerInterval)
-        }
-    };
-
-    updateDisplay();
-
-    const timerInterval = setInterval(() => {
-        timeInSeconds--;
-        updateDisplay();
-    }, 1000);
-}
-
 
 
