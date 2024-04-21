@@ -6,6 +6,7 @@ const getHourglassDrag = () => document.querySelector('#hourglass_drag');
 const getHourglassContainer = () => document.querySelector('#container');
 const getTubes = () => document.querySelectorAll('.tube_drag');
 const getDurationField = () => document.querySelector('#duration');
+const getDurationGroup = () => document.querySelector('.duration_group');
 
 const getStartTimeField = () => document.querySelector('#input-start-time');
 const getEndTimeField = () => document.querySelector('#input-end-time');
@@ -116,6 +117,7 @@ const setDurationValue = (newDurationValue) => {
     getDurationField().value = newDurationValue;
     getDurationField().dispatchEvent(new Event("change"))
     if(getDropZoneRight().contains(getHourglassDrag())) {
+        timeInSeconds = getDurationField().value * 60;
         updateCountdownDisplay();
     }
 }
@@ -162,6 +164,7 @@ const compareCurrentTime = () => {
         isRunning = true;
         timeInSeconds = getDurationField().value * 60;
         getStopButton().style.display = "block";
+        getDurationGroup().style.display = "none";
     } else if (differenceEnd === 0) {
         resetTimer();
     }
@@ -181,7 +184,6 @@ const rotateElement = (domElement, degrees) => {
 
 const updateCountdownDisplay = () => {
     getTimerDisplay().textContent = formatDuration(timeInSeconds);
-
 };
 
 
@@ -193,6 +195,7 @@ const resetTimer = () => {
     rotateElement(getHourglassContainer(), 0)
     getStopButton().style.display = "none";
     resetHourglass();
+    getDurationGroup().style.display = "flex";
 }
 
 const resetHourglass = () => {
