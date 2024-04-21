@@ -45,7 +45,32 @@ document.addEventListener('DOMContentLoaded', () => {
         if (isNaN(num) || num < 0) {
             e.target.value = 0;
         }
-    })
+    });
+
+    //Eventlisteners regarding input validation and formatting
+    getStartTimeField().addEventListener('change', (e) => {
+        const validatedTime = validateTimeAndFormat(e.target.value);
+        if(validatedTime) {
+            e.target.value = validatedTime;
+            if (getDurationField().value) {
+                calculateEndTime();
+            }
+        } else {
+            e.target.value = '';
+        }
+    });
+
+    getEndTimeField().addEventListener('change', (e) => {
+        const validatedTime = validateTimeAndFormat(e.target.value);
+        if(validatedTime) {
+            e.target.value = validatedTime;
+            if (getDurationField().value) {
+                calculateStartTime();
+            }
+        } else {
+            e.target.value = '';
+        }
+    });
 
     //Eventlisteners regarding calculating and setting duration and time
     getStartTimeField().addEventListener('change', () => {
@@ -263,6 +288,24 @@ const updateTime = (e) => {
     } else if (getEndTimeField().value) {
         calculateStartTime();
     }
+}
+
+const validateTimeAndFormat = (value) => {
+    const parts = value.split(':');
+    const hours = parseInt(parts[0]);
+
+    if(!isNaN(hours) && hours >= 0 && hours < 24) {
+        if(parts.length > 1) {
+            const minutes = parseInt(parts[1]);
+            if(!isNaN(minutes) && minutes >= 0 && minutes < 24) {
+                return `${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}`;
+            } else {
+                return '';
+            }
+        }
+        return `${hours < 10 ? '0' + hours : hours}:00`;
+    }
+    return 0;
 }
 
 
