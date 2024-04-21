@@ -31,6 +31,13 @@ body {
   align-items: center;
 }
 
+#stop {
+  background: #EA0A0A;
+  border: solid 3px #BE1619;
+  outline: solid 3px #000000;
+  padding: 5px 10px;
+}
+
 #drop-zone-left, #drop-zone-right {
   height: 60%;
   justify-content: center;
@@ -40,21 +47,6 @@ body {
 #drop-zone-right {
   padding: 2em;
 }
-
-
-label {
-  margin-right: 5px;
-}
-
-button {
-  background: #c5c2c2;
-
-}
-
-.time-block {
-  width: 2em;
-}
-
 
 .draggable {
   display: flex;
@@ -67,6 +59,8 @@ button {
   display: flex;
   flex-direction: row;
   justify-content: center;
+  align-items: center;
+  margin: 20px;
 }
 
 /** duration **/
@@ -97,8 +91,8 @@ button {
   height: 70px;
   background: linear-gradient(
           to bottom,
-          white 0%,
-          white 40%,
+          #406B9D 0%,
+          #406B9D 40%,
           #eca11a 40%,
           #eca11a 100%);
   border: 3px solid #000;
