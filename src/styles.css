@@ -4,6 +4,12 @@ body {
   color: white;
 }
 
+.pixel-border {
+  mask:
+      conic-gradient(at var(--size) var(--size),#000 75%,#0000 0)
+      0 0/calc(100% - var(--size)) calc(100% - var(--size))
+}
+
 #grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -13,17 +19,20 @@ body {
 }
 
 .start-end-time {
-  border: 5px solid #2B4F79;
-  padding: 2em;
+  border: 8px solid #000000;
+  padding: 2.5em;
+  box-shadow: inset 0 0 0 6px #2B4F79;
+  --size: 8px; /* this is for the pixelated border */
 }
 
 .start-end-time input[type="text"] {
   width: 50px;
   margin-right: 2em;
   background: #406B9D;
-  border: solid 3px #2B4F79;
+  border: solid 4px #2B4F79;
   padding: 5px 10px;
   color: white;
+  --size: 4px; /* this is for the pixelated border */
 }
 
 .flex {
@@ -33,9 +42,10 @@ body {
 
 #stop {
   background: #EA0A0A;
-  border: solid 3px #BE1619;
-  outline: solid 3px #000000;
-  padding: 5px 10px;
+  border: solid 4px #000000;
+  box-shadow: inset 0 0 0 4px #BE1619;
+  padding: 10px 15px;
+  --size: 4px; /* this is for the pixelated border */
 }
 
 #drop-zone-left, #drop-zone-right {
@@ -70,19 +80,23 @@ body {
 }
 
 #duration {
-  width: 4em;
+  width: 5em;
   background: #406B9D;
-  border: solid 2px #BF8A00;
+  border: solid 4px #BF8A00;
   padding: 5px 10px;
   color: white;
+  --size: 4px; /* this is for the pixelated border */
 }
 
 #plus, #minus {
   background: #eca11a;
-  border: solid 3px #BF8A00 ;
-  width: 30px;
-  height: 30px;
+  display: flex;
+  vertical-align: middle;
+  height: 40px;
+  border: solid 4px #000000 ;
+  box-shadow: inset 0 0 0 4px #BF8A00;
   font-size: 1.2em;
+  --size: 4px; /* this is for the pixelated border */
 }
 
 /** tube **/

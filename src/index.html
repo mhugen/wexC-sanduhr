@@ -49,9 +49,13 @@
              ondrop="dropHandler(event)"
              ondragover="dragoverHandler(event)">
             <div class="flex duration_group">
-                <button id="minus">-</button>
-                <input type="text" placeholder="Dauer" name="duration" id="duration"/>
-                <button id="plus">+</button>
+                <button id="minus" class="pixel-border">
+                    <img src="img/remove.svg">
+                </button>
+                <input type="text" placeholder="Dauer" name="duration" id="duration" class="pixel-border"/>
+                <button id="plus" class="pixel-border">
+                    <img src="img/add.svg">
+                </button>
             </div>
             <div class="draggable" id="hourglass_drag" draggable="true" data-duration="free">
                 <div id="container">
@@ -91,16 +95,16 @@
         </div>
     </section>
 
-    <section class="start-end-time">
+    <section class="start-end-time pixel-border">
         <label for="input-start-time">Startzeit</label>
-        <input type="text" name="starting-time" id="input-start-time"/>
+        <input type="text" name="starting-time" id="input-start-time" class="pixel-border"/>
         <label for="input-end-time">Endzeit</label>
-        <input type="text" name="end-time" id="input-end-time"/>
+        <input type="text" name="end-time" id="input-end-time" class="pixel-border"/>
         <div id="drop-zone-right"
              ondrop="dropHandler(event)"
              ondragover="dragoverHandler(event)">
         </div>
-        <button id="stop">Stoppen</button>
+        <button id="stop" class="pixel-border">Stoppen</button>
     </section>
 </main>
 </body>
