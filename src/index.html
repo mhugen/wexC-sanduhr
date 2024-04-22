@@ -16,31 +16,26 @@
     <section id="set-time">
         <div id="tubes">
             <div class="draggable tube_drag" draggable="true" data-duration="5">
-                <div class="tube" id="tube1">
+                <div class="tube-container">
+                    <div class="tube tube-border" id="tube1"></div>
                 </div>
                 <p>5 min</p>
             </div>
             <div class="draggable tube_drag" draggable="true" data-duration="10">
-                <div class="tube" id="tube2">
-                    <div class="tube-content"></div>
-                    <div class="middle-pixels"></div>
-                    <div class="bottom-pixels"></div>
+                <div class="tube-container">
+                    <div class="tube" id="tube2"></div>
                 </div>
                 <p>10 min</p>
             </div>
             <div class="draggable tube_drag" draggable="true" data-duration="15">
-                <div class="tube" id="tube3">
-                    <div class="tube-content"></div>
-                    <div class="middle-pixels"></div>
-                    <div class="bottom-pixels"></div>
+                <div class="tube-container">
+                    <div class="tube" id="tube3"></div>
                 </div>
                 <p>15 min</p>
             </div>
             <div class="draggable tube_drag" draggable="true" data-duration="30">
-                <div class="tube" id="tube4">
-                    <div class="tube-content"></div>
-                    <div class="middle-pixels"></div>
-                    <div class="bottom-pixels"></div>
+                <div class="tube-container">
+                    <div class="tube" id="tube4"></div>
                 </div>
                 <p>30 min</p>
             </div>
@@ -49,9 +44,13 @@
              ondrop="dropHandler(event)"
              ondragover="dragoverHandler(event)">
             <div class="flex duration_group">
-                <button id="minus">-</button>
-                <input type="text" placeholder="Dauer" name="duration" id="duration"/>
-                <button id="plus">+</button>
+                <button id="minus" class="pixel-border">
+                    <img src="img/remove.svg">
+                </button>
+                <input type="text" placeholder="Dauer" name="duration" id="duration" class="pixel-border"/>
+                <button id="plus" class="pixel-border">
+                    <img src="img/add.svg">
+                </button>
             </div>
             <div class="draggable" id="hourglass_drag" draggable="true" data-duration="free">
                 <div id="container">
@@ -70,19 +69,26 @@
                         <div class="a"></div>
                     </div>
                     <div id="sand">
-                        <div class="grain g1"></div>
-                        <div class="grain g2"></div>
-                        <div class="grain g3"></div>
-                        <div class="grain g4"></div>
-                        <div class="grain g5"></div>
-                        <div class="grain g6"></div>
-                        <div class="grain g7"></div>
-                        <div class="grain g8"></div>
-                        <div class="grain g9"></div>
+                        <div class="grain g0 hide"></div>
+                        <div class="grain g1 hide"></div>
+                        <div class="grain g2 hide"></div>
+                        <div class="grain g3 hide"></div>
+                        <div class="grain g4 hide"></div>
+                        <div class="grain g5 hide"></div>
+                        <div class="grain g6 hide"></div>
+                        <div class="grain g7 hide"></div>
+                        <div class="grain g8 hide"></div>
+                        <div class="grain g9 hide"></div>
                         <div class="grain g10"></div>
                         <div class="grain g11"></div>
-                        <div class="grain g12 hide"></div>
+                        <div class="grain g12"></div>
                         <div class="grain g13"></div>
+                        <div class="grain g14"></div>
+                        <div class="grain g15"></div>
+                        <div class="grain g16"></div>
+                        <div class="grain g17"></div>
+                        <div class="grain g18"></div>
+                        <div class="grain g19"></div>
                     </div>
                 </div>
                 <p id="timer_display"></p>
@@ -91,16 +97,16 @@
         </div>
     </section>
 
-    <section class="start-end-time">
+    <section class="start-end-time pixel-border">
         <label for="input-start-time">Startzeit</label>
-        <input type="text" name="starting-time" id="input-start-time"/>
+        <input type="text" name="starting-time" id="input-start-time" class="pixel-border"/>
         <label for="input-end-time">Endzeit</label>
-        <input type="text" name="end-time" id="input-end-time"/>
+        <input type="text" name="end-time" id="input-end-time" class="pixel-border"/>
         <div id="drop-zone-right"
              ondrop="dropHandler(event)"
              ondragover="dragoverHandler(event)">
         </div>
-        <button id="stop">Stoppen</button>
+        <button id="stop" class="pixel-border">Stoppen</button>
     </section>
 </main>
 </body>

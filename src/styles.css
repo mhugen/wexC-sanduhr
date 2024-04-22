@@ -4,6 +4,12 @@ body {
   color: white;
 }
 
+.pixel-border {
+  mask:
+      conic-gradient(at var(--size) var(--size),#000 75%,#0000 0)
+      0 0/calc(100% - var(--size)) calc(100% - var(--size))
+}
+
 #grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -13,17 +19,20 @@ body {
 }
 
 .start-end-time {
-  border: 5px solid #2B4F79;
-  padding: 2em;
+  border: 8px solid #000000;
+  padding: 2.5em;
+  box-shadow: inset 0 0 0 6px #2B4F79;
+  --size: 8px; /* this is for the pixelated border */
 }
 
 .start-end-time input[type="text"] {
   width: 50px;
   margin-right: 2em;
   background: #406B9D;
-  border: solid 3px #2B4F79;
+  border: solid 4px #2B4F79;
   padding: 5px 10px;
   color: white;
+  --size: 4px; /* this is for the pixelated border */
 }
 
 .flex {
@@ -33,9 +42,10 @@ body {
 
 #stop {
   background: #EA0A0A;
-  border: solid 3px #BE1619;
-  outline: solid 3px #000000;
-  padding: 5px 10px;
+  border: solid 4px #000000;
+  box-shadow: inset 0 0 0 4px #BE1619;
+  padding: 10px 15px;
+  --size: 4px; /* this is for the pixelated border */
 }
 
 #drop-zone-left, #drop-zone-right {
@@ -55,6 +65,34 @@ body {
   margin: 20px;
 }
 
+/** duration **/
+.duration_group {
+  justify-content: center;
+  gap: 10px;
+}
+
+#duration {
+  width: 5em;
+  background: #406B9D;
+  border: solid 4px #BF8A00;
+  padding: 5px 10px;
+  color: white;
+  --size: 4px; /* this is for the pixelated border */
+}
+
+#plus, #minus {
+  background: #eca11a;
+  display: flex;
+  vertical-align: middle;
+  height: 40px;
+  border: solid 4px #000000 ;
+  box-shadow: inset 0 0 0 4px #BF8A00;
+  font-size: 1.2em;
+  --size: 4px; /* this is for the pixelated border */
+}
+
+/** tube **/
+
 #tubes {
   display: flex;
   flex-direction: row;
@@ -63,41 +101,26 @@ body {
   margin: 20px;
 }
 
-/** duration **/
-.duration_group {
-  justify-content: center;
-  gap: 10px;
+.tube-container {
+  position: relative;
+  width: 35px;
+  height: 78px;
+  background: black;
+  box-shadow: inset 0 0 0 5px #000000;
+  clip-path: polygon(0% 85%, 10% 85%, 10% 95%, 20% 95%, 20% 100%, 80% 100%, 80% 95%, 90% 95%, 90% 85%, 100% 85%, 100% 0%, 0% 0%);
 }
 
-#duration {
-  width: 4em;
-  background: #406B9D;
-  border: solid 2px #BF8A00;
-  padding: 5px 10px;
-  color: white;
-}
-
-#plus, #minus {
-  background: #eca11a;
-  border: solid 3px #BF8A00 ;
-  width: 30px;
-  height: 30px;
-  font-size: 1.2em;
-}
-
-/** tube **/
 .tube {
-  width: 20px;
+  background: linear-gradient( to bottom, #406B9D 0%, #406B9D 40%, #eca11a 40%, #eca11a 100%);
+  clip-path: polygon(0% 85%, 10% 85%, 10% 95%, 20% 95%, 20% 100%, 80% 100%, 80% 95%, 90% 95%, 90% 85%, 100% 85%, 100% 0%, 0% 0%);
+  z-index: 100;
+  position: absolute;
+  width: 27px;
   height: 70px;
-  background: linear-gradient(
-          to bottom,
-          #406B9D 0%,
-          #406B9D 40%,
-          #eca11a 40%,
-          #eca11a 100%);
-  border: 3px solid #000;
+  left: 4px;
+  bottom: 4px;
 }
-/*https://developer.mozilla.org/en-US/docs/Web/CSS/border-image-slice*/
+
 
 /** hourglass **/
 #hourglass{
@@ -155,65 +178,28 @@ body {
 .e{width: 24px;}
 .f{width: 8px;}
 
-.g1{top: 0px;left: 0px;}
-.g2{top: 0px;left: 16px;}
-.g3{top: 0px;left: 32px;}
-.g4{top: 0px;left: 48px;}
-.g5{top: 8px;left: 8px;}
-.g6{top: 8px;left: 24px;}
-.g7{top: 8px;left: 40px;}
-.g8{top: 16px;left: 16px;}
-.g9{top: 16px;left: 32px;}
-.g10{top: 24px;left: 24px;}
-.g11{top: 40px;left: 24px;}
-.g12{top: 64px;left: 24px;}
-.g13{top: 72px;left: 24px;}
+.g10{top: 0px;left: 0px;}
+.g11{top: 0px;left: 16px;}
+.g12{top: 0px;left: 32px;}
+.g13{top: 0px;left: 48px;}
+.g14{top: 8px;left: 8px;}
+.g15{top: 8px;left: 24px;}
+.g16{top: 8px;left: 40px;}
+.g17{top: 16px;left: 16px;}
+.g18{top: 16px;left: 32px;}
+.g19{top: 24px;left: 24px;}
+.g9{top: 86px;left: 24px;}
+.g7{top: 94px;left: 16px;}
+.g8{top: 94px;left: 32px;}
+.g4{top: 102px;left: 8px;}
+.g5{top: 102px;left: 24px;}
+.g6{top: 102px;left: 40px;}
+.g0{top: 110px;left: 0px;}
+.g1{top: 110px;left: 16px;}
+.g2{top: 110px;left: 32px;}
+.g3{top: 110px;left: 48px;}
 
-.hide{
+.hide {
   display: none;
 }
 
-.moveg1{
-  left: 16px;
-  top: 112px;
-}
-
-.moveg2{
-  left: 48px;
-  top: 112px;
-}
-
-.moveg3{
-  top: 112px;
-}
-
-.moveg4{
-  left: 24px;
-  top: 104px;
-}
-
-.moveg5{
-  top: 112px;
-  left: 0px;
-}
-
-.moveg6{
-  left: 8px;
-  top: 104px;
-}
-
-.moveg7{
-  top: 104px;
-}
-
-.moveg8{
-  top: 96px;
-}
-
-.moveg9{
-  top: 96px;
-}
-
-.moveg10{
-  top: 88px;
-}
