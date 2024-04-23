@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //Eventlisteners regarding input validation and formatting
     getStartTimeField().addEventListener('change', (e) => {
-        const validatedTime = validateTimeAndFormat(e.target.value);
+        const validatedTime = validateTimeAndFormat(e.target.value)
         if(validatedTime) {
             e.target.value = validatedTime;
             if (getDurationField().value) {
@@ -346,7 +346,7 @@ const validateTimeAndFormat = (value) => {
     if(!isNaN(hours) && hours >= 0 && hours < 24) {
         if(parts.length > 1) {
             const minutes = parseInt(parts[1]);
-            if(!isNaN(minutes) && minutes >= 0 && minutes < 24) {
+            if(!isNaN(minutes) && minutes >= 0 && minutes < 60) {
                 return `${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}`;
             } else {
                 return '';
