@@ -22,6 +22,8 @@ const getDropZoneRight = () => document.querySelector('#drop-zone-right');
 document.addEventListener('DOMContentLoaded', () => {
     getDurationField().value = null;
     timeInterval();
+    rotateElement(getHourglassContainer(), 180);
+
 
     //drag event listener for tubes
     getTubes().forEach((tube) => {
@@ -141,7 +143,7 @@ const formatDuration = (durationInSeconds) => {
 const setDurationValue = (newDurationValue) => {
     getDurationField().value = newDurationValue;
     getDurationField().dispatchEvent(new Event("change"))
-    if(getDropZoneRight().contains(getHourglassDrag())) {
+    if (getDropZoneRight().contains(getHourglassDrag())) {
         timeInSeconds = getDurationField().value * 60;
         updateCountdownDisplay();
     }
@@ -167,13 +169,14 @@ const subtractFiveMin = () => {
  ***/
 
 let isRunning = false;
+let animationTimeouts = [];
 let rotDegrees = 0;
 let timeInSeconds = null;
+let animationInterval = null;
+
 const timeInterval = () => setInterval(() => {
     compareCurrentTime()
-    if(isRunning) {
-        rotating();
-        rotDegrees += 45;
+    if (isRunning) {
         updateCountdownDisplay();
         timeInSeconds--;
     }
@@ -185,8 +188,14 @@ const compareCurrentTime = () => {
     const endTime = getEndTimeField().value.replace(':', '');
     let differenceStart = startTime - currentTime;
     let differenceEnd = endTime - currentTime;
-    if(!isRunning && differenceStart === 0 && getDropZoneRight().contains(getHourglassDrag()) && getDurationField().value > 0){
+    if (!isRunning && differenceStart === 0 && getDropZoneRight().contains(getHourglassDrag()) && getDurationField().value > 0) {
         isRunning = true;
+        rotDegrees = 0;
+        rotateElement(getHourglassContainer(), rotDegrees);
+        animateHourglass();
+        animationInterval = setInterval(() => {
+            animateHourglass();
+        }, 28000);
         timeInSeconds = getDurationField().value * 60;
         getStopButton().style.display = "block";
         getDurationGroup().style.display = "none";
@@ -195,18 +204,47 @@ const compareCurrentTime = () => {
     }
 }
 
-const rotating = () => {
-    rotateElement(getHourglassContainer(), rotDegrees)
+const animateHourglass = () => {
+    animationTimeouts = [
+        ...Array(10).fill(0).map((_, i) => [
+            setTimeout(() => {
+                const grain1 = document.querySelector(`.g${i}`)
+                const grain2 = document.querySelector(`.g1${i}`)
+                toggle(grain1, grain2);
+            }, i * 1000),
+        ]),
+        ...Array(10).fill(0).map((_, i) => [
+            setTimeout(() => {
+                const grain1 = document.querySelector(`.g${i}`)
+                const grain2 = document.querySelector(`.g1${i}`)
+                toggle(grain1, grain2);
+            }, 14000 + (i * 1000)),
+        ]),
+        ...Array(4).fill(0).map((_, i) => setTimeout(() => {
+            rotDegrees = rotDegrees + 45;
+            console.log(rotDegrees);
+            rotateElement(getHourglassContainer(), rotDegrees)
+        }, 10000 + i * 1000)),
+        ...Array(4).fill(0).map((_, i) => setTimeout(() => {
+            rotDegrees = rotDegrees + 45;
+            console.log(rotDegrees);
+            rotateElement(getHourglassContainer(), rotDegrees)
+        }, 24000 + i * 1000))
+    ]
 }
+
+const toggle = (...grains) => {
+    grains.forEach((grain) => grain.classList.toggle("hide"));
+}
+
 const rotateElement = (domElement, degrees) => {
-    domElement.style.transform =  'rotate('+degrees+'deg)';
+    domElement.style.transform = 'rotate(' + degrees + 'deg)';
 }
 
 /**
  * Count down when timer is running
  *
  * */
-
 const updateCountdownDisplay = () => {
     getTimerDisplay().textContent = formatDuration(timeInSeconds);
 };
@@ -216,15 +254,26 @@ const updateCountdownDisplay = () => {
  * reset all the things
  */
 const resetTimer = () => {
+    animationTimeouts.forEach((timeout) => clearTimeout(timeout));
     isRunning = false;
-    rotateElement(getHourglassContainer(), 0)
+    rotDegrees = 180;
+    rotateElement(getHourglassContainer(), rotDegrees)
+    clearInterval(animationInterval);
     getStopButton().style.display = "none";
     resetHourglass();
     getDurationGroup().style.display = "flex";
+    resetGrains();
+}
+
+const resetGrains = () => {
+    for(let i = 0; i< 10; i++) {
+        document.querySelector(`.g${i}`)?.classList.add('hide');
+        document.querySelector(`.g1${i}`)?.classList.remove('hide');
+    }
 }
 
 const resetHourglass = () => {
-    const hourglass = getDropZoneRight().childNodes[1];
+    const hourglass = getHourglassDrag();
     getDropZoneRight().removeChild(hourglass);
     getDropZoneLeft().appendChild(hourglass);
     getTimerDisplay().innerHTML = null;
